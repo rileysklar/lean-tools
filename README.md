@@ -16,6 +16,7 @@
 This is a starter template using the following stack:
 
 - Framework - [Next.js 15](https://nextjs.org/13)
+- Runtime - [React 18](https://react.dev) (Stable compatibility with ecosystem)
 - Language - [TypeScript](https://www.typescriptlang.org)
 - Auth - [Clerk](https://go.clerk.com/ILdYhn7)
 - Error tracking - [<picture><img alt="Sentry" src="public/assets/sentry.svg">
@@ -88,8 +89,27 @@ src/
 
 ## Getting Started
 
-> [!NOTE]  
-> We are using **Next 15** with **React 19**, follow these steps:
+> [!IMPORTANT]  
+> **React Version Compatibility**: This project uses **React 18** for maximum stability and compatibility with the entire ecosystem. While Next.js 15 supports React 19, we've chosen React 18 to avoid compatibility issues with icon libraries (@tabler/icons-react, lucide-react, @radix-ui/react-icons) and third-party components that haven't fully adapted to React 19's stricter type system yet.
+
+### React 18 vs React 19 Compatibility
+
+**Why React 18?**
+- ✅ **Full ecosystem compatibility** - All icon libraries and UI components work seamlessly
+- ✅ **Stable production-ready** - Battle-tested in enterprise applications  
+- ✅ **No TypeScript errors** - Avoids `ForwardRefExoticComponent` type conflicts
+- ✅ **Better developer experience** - No need for manual component wrapping or type assertions
+
+**React 19 Issues (Resolved by using React 18):**
+- ❌ Icon libraries export components with incompatible `ForwardRefExoticComponent` types
+- ❌ React 19 expects JSX components to have `(props: any) => ReactNode` signature
+- ❌ Requires manual `React.createElement()` wrapping for many third-party components
+- ❌ Breaking changes in component prop typing
+
+> [!TIP]
+> **Future Migration**: You can upgrade to React 19 later when the ecosystem fully adapts. For now, React 18 provides all modern React features with maximum stability.
+
+Follow these steps:
 
 Clone the repo:
 
@@ -108,6 +128,43 @@ git clone https://github.com/Kiranism/next-shadcn-dashboard-starter.git
 To configure the environment for this project, refer to the `env.example.txt` file. This file contains the necessary environment variables required for authentication and error tracking.
 
 You should now be able to access the application at http://localhost:3000.
+
+## Troubleshooting
+
+### React 19 Compatibility Issues
+
+If you encounter TypeScript errors like:
+```
+Type 'ForwardRefExoticComponent<...>' is not assignable to type '(props: any) => ReactNode'
+```
+
+**Root Cause**: React 19 introduced stricter typing for JSX components. Icon libraries and many UI components haven't fully adapted to these changes.
+
+**Solutions**:
+1. **Recommended**: Use React 18 (already configured in this project)
+2. **Alternative**: If you must use React 19, you'll need to:
+   - Wrap icon components with `React.createElement(IconComponent as any, props)`
+   - Use type assertions: `as any` for third-party components
+   - Update component prop types manually
+
+**Migration Path**: 
+- Stay on React 18 for production stability
+- Monitor ecosystem adoption of React 19
+- Upgrade when major libraries provide full React 19 support
+
+### Common Build Errors
+
+**Missing Environment Variables**:
+```bash
+cp env.example.txt .env.local
+# Add your actual environment variables
+```
+
+**Package Installation Issues**:
+```bash
+rm -rf node_modules package-lock.json
+pnpm install
+```
 
 > [!WARNING]
 > After cloning or forking the repository, be cautious when pulling or syncing with the latest changes, as this may result in breaking conflicts.

@@ -1,0 +1,389 @@
+---
+description:This is a Manufacturing Efficiency Tracking System built with Next.js 15, React 18, TypeScript, and Clerk authentication. The system tracks machine cycles, identifies bottlenecks, measures efficiency, and provides real-time updates for industrial production facilities.
+globs:
+alwaysApply: true
+---
+
+# 🏢 Cursor Rules for Enterprise-Grade Manufacturing Efficiency Tracking System
+
+## 🎯 **PROJECT OVERVIEW**
+This is a Manufacturing Efficiency Tracking System built with Next.js 15, React 18, TypeScript, and Clerk authentication. The system tracks machine cycles, identifies bottlenecks, measures efficiency, and provides real-time updates for industrial production facilities.
+
+## 🏗️ **ARCHITECTURE PRINCIPLES**
+
+### **1. Feature-Based Organization**
+- Organize code by business features, not technical layers
+- Each feature should be self-contained with its own components, services, and types
+- Follow the established pattern: `src/features/{feature-name}/`
+- Keep shared utilities in `src/lib/` and `src/components/ui/`
+
+### **2. Separation of Concerns**
+- **Components**: Pure UI logic, no business logic
+- **Services**: Business logic and external API calls
+- **Hooks**: State management and side effects
+- **Types**: TypeScript interfaces and types
+- **Utils**: Pure utility functions
+
+### **3. Data Flow**
+- Use React Server Components for data fetching when possible
+- Client components only for interactivity and state
+- Implement proper loading and error states
+- Use Zustand for client-side state management
+
+## 🚫 **NEVER DO THESE**
+
+### **1. Console Logging in Production**
+```typescript
+// ❌ NEVER - Debug code in production
+console.log('API response:', data);
+console.error('Error occurred:', error);
+
+// ✅ ALWAYS - Use proper logging
+import { logger } from '@/lib/logger';
+logger.info('API response received', { endpoint: '/api/data', count: data.length });
+logger.error('API error occurred', { endpoint: '/api/data', error: error.message });
+```
+
+### **2. Direct DOM Manipulation**
+```typescript
+// ❌ NEVER - Direct DOM access
+document.getElementById('map').innerHTML = '';
+
+// ✅ ALWAYS - Use React refs and state
+const mapRef = useRef<HTMLDivElement>(null);
+useEffect(() => {
+  if (mapRef.current) {
+    // Safe DOM manipulation
+  }
+}, []);
+```
+
+### **3. Any Types**
+```typescript
+// ❌ NEVER - Loose typing
+const data: any = await response.json();
+
+// ✅ ALWAYS - Proper TypeScript types
+interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+  error?: string;
+}
+const data: ApiResponse<Feature[]> = await response.json();
+```
+
+### **4. Inline Styles or Hardcoded Values**
+```typescript
+// ❌ NEVER - Hardcoded values
+const maxRecords = 1000;
+const apiUrl = 'https://api.example.com';
+
+// ✅ ALWAYS - Use constants and environment variables
+import { API_CONFIG } from '@/config/constants';
+const maxRecords = API_CONFIG.MAX_RECORDS;
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+```
+
+## ✅ **ALWAYS DO THESE**
+
+### **1. Error Handling**
+```typescript
+// ✅ ALWAYS - Comprehensive error handling
+try {
+  const result = await riskyOperation();
+  return { success: true, data: result };
+} catch (error) {
+  logger.error('Operation failed', { operation: 'riskyOperation', error });
+  return { 
+    success: false, 
+    error: error instanceof Error ? error.message : 'Unknown error',
+    timestamp: new Date().toISOString()
+  };
+}
+```
+
+### **2. Input Validation**
+```typescript
+// ✅ ALWAYS - Validate all inputs
+import { z } from 'zod';
+
+const createFeatureSchema = z.object({
+  name: z.string().min(1, 'Name is required'),
+  type: z.enum(['machine', 'process', 'workstation']),
+  location: z.object({
+    x: z.number().min(0),
+    y: z.number().min(0)
+  })
+});
+
+export async function POST(request: NextRequest) {
+  const body = await request.json();
+  const validation = createFeatureSchema.safeParse(body);
+  
+  if (!validation.success) {
+    return NextResponse.json({ 
+      success: false, 
+      error: 'Invalid input',
+      details: validation.error.errors 
+    }, { status: 400 });
+  }
+  
+  // Safe to use validation.data
+}
+```
+
+### **3. Loading States**
+```typescript
+// ✅ ALWAYS - Show loading states
+const [loading, setLoading] = useState(false);
+const [error, setError] = useState<string | null>(null);
+
+const handleSubmit = async (data: FormData) => {
+  setLoading(true);
+  setError(null);
+  
+  try {
+    await submitData(data);
+    toast.success('Data submitted successfully');
+  } catch (err) {
+    setError(err instanceof Error ? err.message : 'Submission failed');
+  } finally {
+    setLoading(false);
+  }
+};
+
+// In JSX
+<Button disabled={loading} type="submit">
+  {loading ? 'Submitting...' : 'Submit'}
+</Button>
+```
+
+### **4. Type Safety**
+```typescript
+// ✅ ALWAYS - Strict TypeScript usage
+interface MachineCycle {
+  id: string;
+  machineId: string;
+  startTime: Date;
+  endTime?: Date;
+  status: 'running' | 'completed' | 'failed';
+  efficiency: number;
+  operatorId: string;
+}
+
+// Use branded types for IDs
+type MachineId = string & { readonly __brand: 'MachineId' };
+type OperatorId = string & { readonly __brand: 'OperatorId' };
+
+// Validate at runtime
+const isValidMachineId = (id: string): id is MachineId => {
+  return /^[A-Z]{2}-\d{6}$/.test(id);
+};
+```
+
+## 🧪 **TESTING REQUIREMENTS**
+
+### **1. Unit Tests**
+- Every service function must have unit tests
+- Every utility function must have unit tests
+- Test business logic thoroughly
+- Use descriptive test names
+
+```typescript
+// ✅ ALWAYS - Comprehensive unit tests
+describe('MachineEfficiencyService', () => {
+  describe('calculateEfficiency', () => {
+    it('should return 100% for perfect cycle', () => {
+      const cycle = createMockCycle({ actualTime: 60, targetTime: 60 });
+      const efficiency = calculateEfficiency(cycle);
+      expect(efficiency).toBe(100);
+    });
+
+    it('should handle zero target time gracefully', () => {
+      const cycle = createMockCycle({ actualTime: 60, targetTime: 0 });
+      expect(() => calculateEfficiency(cycle)).toThrow('Target time cannot be zero');
+    });
+  });
+});
+```
+
+### **2. Integration Tests**
+- Test API endpoints end-to-end
+- Test component interactions
+- Mock external services properly
+
+### **3. Test Coverage**
+- Minimum 80% line coverage
+- 100% coverage for critical business logic
+- Test error paths and edge cases
+
+## 🔒 **SECURITY REQUIREMENTS**
+
+### **1. Authentication & Authorization**
+- Always verify user authentication in protected routes
+- Implement role-based access control (RBAC)
+- Validate user permissions before operations
+
+```typescript
+// ✅ ALWAYS - Verify authentication and authorization
+export async function POST(request: NextRequest) {
+  const { userId } = await auth();
+  if (!userId) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const user = await getUser(userId);
+  if (!hasPermission(user, 'CREATE_MACHINE')) {
+    return NextResponse.json({ error: 'Insufficient permissions' }, { status: 403 });
+  }
+
+  // Proceed with operation
+}
+```
+
+### **2. Input Sanitization**
+- Never trust user input
+- Validate and sanitize all inputs
+- Use parameterized queries for database operations
+
+### **3. Environment Variables**
+- Never commit secrets to version control
+- Use proper validation for environment variables
+- Implement startup checks for required variables
+
+## 📊 **PERFORMANCE REQUIREMENTS**
+
+### **1. API Response Times**
+- List endpoints: < 200ms
+- Detail endpoints: < 500ms
+- Complex operations: < 2s
+
+### **2. Bundle Size**
+- Keep main bundle under 500KB
+- Use dynamic imports for heavy components
+- Implement proper code splitting
+
+### **3. Database Queries**
+- Use indexes for frequently queried fields
+- Implement pagination for large datasets
+- Cache frequently accessed data
+
+## 🚀 **DEPLOYMENT & CI/CD**
+
+### **1. Environment Management**
+- Separate configurations for dev, staging, and production
+- Use environment-specific variables
+- Implement health checks
+
+### **2. Build Process**
+- Automated testing before deployment
+- Code quality gates (linting, type checking)
+- Automated security scanning
+
+### **3. Monitoring**
+- Implement proper logging
+- Set up error tracking (Sentry)
+- Monitor performance metrics
+
+## 📝 **CODE STYLE & QUALITY**
+
+### **1. Naming Conventions**
+```typescript
+// ✅ ALWAYS - Clear, descriptive names
+// Components: PascalCase
+export function MachineEfficiencyCard() {}
+
+// Functions: camelCase, descriptive
+async function calculateMachineEfficiency(machineId: string, timeRange: DateRange) {}
+
+// Constants: UPPER_SNAKE_CASE
+const MAX_EFFICIENCY_THRESHOLD = 95;
+const DEFAULT_REFRESH_INTERVAL = 30000;
+
+// Types/Interfaces: PascalCase
+interface MachineEfficiencyMetrics {}
+type EfficiencyStatus = 'optimal' | 'suboptimal' | 'critical';
+```
+
+### **2. File Organization**
+```
+src/features/machine-efficiency/
+├── components/
+│   ├── EfficiencyChart.tsx
+│   ├── EfficiencyTable.tsx
+│   └── EfficiencyFilters.tsx
+├── services/
+│   ├── efficiency-calculator.ts
+│   └── efficiency-api.ts
+├── hooks/
+│   ├── useEfficiencyData.ts
+│   └── useEfficiencyFilters.ts
+├── types/
+│   └── efficiency.ts
+└── index.ts
+```
+
+### **3. Component Structure**
+```typescript
+// ✅ ALWAYS - Consistent component structure
+interface EfficiencyChartProps {
+  data: EfficiencyData[];
+  timeRange: TimeRange;
+  onDataPointClick?: (point: DataPoint) => void;
+}
+
+export function EfficiencyChart({ 
+  data, 
+  timeRange, 
+  onDataPointClick 
+}: EfficiencyChartProps) {
+  // 1. Hooks
+  const [selectedPoint, setSelectedPoint] = useState<DataPoint | null>(null);
+  
+  // 2. Event handlers
+  const handlePointClick = useCallback((point: DataPoint) => {
+    setSelectedPoint(point);
+    onDataPointClick?.(point);
+  }, [onDataPointClick]);
+  
+  // 3. Effects
+  useEffect(() => {
+    // Side effects
+  }, [data, timeRange]);
+  
+  // 4. Render
+  return (
+    <div className="efficiency-chart">
+      {/* Component JSX */}
+    </div>
+  );
+}
+```
+
+## 🔍 **CODE REVIEW CHECKLIST**
+
+Before merging any code, ensure:
+
+- [ ] No console.log statements
+- [ ] Proper error handling implemented
+- [ ] Input validation added
+- [ ] TypeScript types are strict
+- [ ] Unit tests written and passing
+- [ ] Performance considerations addressed
+- [ ] Security best practices followed
+- [ ] Code follows established patterns
+- [ ] No hardcoded values
+- [ ] Proper loading states implemented
+- [ ] Accessibility considerations addressed
+
+## 📚 **RESOURCES & REFERENCES**
+
+- [Next.js Best Practices](https://nextjs.org/docs/advanced-features)
+- [React Patterns](https://reactpatterns.com/)
+- [TypeScript Guidelines](https://github.com/microsoft/TypeScript/wiki/Coding-guidelines)
+- [Security Best Practices](https://owasp.org/www-project-top-ten/)
+- [Performance Guidelines](https://web.dev/performance/)
+
+---
+
+**Remember**: This is an enterprise application that will be used in production environments. Every line of code should reflect production-ready quality. When in doubt, prioritize safety, performance, and maintainability over cleverness or shortcuts.

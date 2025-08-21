@@ -31,7 +31,7 @@ export const FooterSection = () => {
               href="https://rileysklar.io/"
               className="text-muted-foreground hover:text-primary"
             >
-              Riley Sklar
+              MER
             </Link>
           </div>
           <button
