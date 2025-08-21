@@ -1,11 +1,12 @@
 'use client';
 
 import {
-  IconFolder,
-  IconShare,
-  IconDots,
-  IconTrash
-} from '@tabler/icons-react';
+  FileIcon,
+  Share1Icon,
+  DotsHorizontalIcon,
+  TrashIcon
+} from '@radix-ui/react-icons';
+import * as React from 'react';
 
 import {
   DropdownMenu,
@@ -51,7 +52,7 @@ export function NavProjects({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuAction showOnHover>
-                  <IconDots />
+                  {React.createElement(DotsHorizontalIcon as any)}
                   <span className='sr-only'>More</span>
                 </SidebarMenuAction>
               </DropdownMenuTrigger>
@@ -61,16 +62,16 @@ export function NavProjects({
                 align={isMobile ? 'end' : 'start'}
               >
                 <DropdownMenuItem>
-                  <IconFolder className='text-muted-foreground mr-2 h-4 w-4' />
+                  {React.createElement(FileIcon as any, { className: 'text-muted-foreground mr-2 h-4 w-4' })}
                   <span>View Project</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <IconShare className='text-muted-foreground mr-2 h-4 w-4' />
+                  {React.createElement(Share1Icon as any, { className: 'text-muted-foreground mr-2 h-4 w-4' })}
                   <span>Share Project</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                  <IconTrash className='text-muted-foreground mr-2 h-4 w-4' />
+                  {React.createElement(TrashIcon as any, { className: 'text-muted-foreground mr-2 h-4 w-4' })}
                   <span>Delete Project</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -79,7 +80,7 @@ export function NavProjects({
         ))}
         <SidebarMenuItem>
           <SidebarMenuButton className='text-sidebar-foreground/70'>
-            <IconDots className='text-sidebar-foreground/70' />
+            {React.createElement(DotsHorizontalIcon as any, { className: 'text-sidebar-foreground/70' })}
             <span>More</span>
           </SidebarMenuButton>
         </SidebarMenuItem>

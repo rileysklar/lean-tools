@@ -1,13 +1,14 @@
 'use client';
 
 import {
-  IconCircleCheck,
-  IconBell,
-  IconChevronsDown,
-  IconCreditCard,
-  IconLogout,
-  IconSparkles
-} from '@tabler/icons-react';
+  CheckCircledIcon,
+  BellIcon,
+  ChevronDownIcon,
+  CardStackIcon,
+  ExitIcon,
+  StarIcon
+} from '@radix-ui/react-icons';
+import * as React from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -54,7 +55,7 @@ export function NavUser({
                 <span className='truncate font-semibold'>{user.name}</span>
                 <span className='truncate text-xs'>{user.email}</span>
               </div>
-              <IconChevronsDown className='ml-auto size-4' />
+              {React.createElement(ChevronDownIcon as any, { className: 'ml-auto size-4' })}
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -78,28 +79,28 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <IconSparkles className='mr-2 h-4 w-4' />
+                {React.createElement(StarIcon as any, { className: 'mr-2 h-4 w-4' })}
                 Upgrade to Pro
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <IconCircleCheck className='mr-2 h-4 w-4' />
+                {React.createElement(CheckCircledIcon as any, { className: 'mr-2 h-4 w-4' })}
                 Account
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <IconCreditCard className='mr-2 h-4 w-4' />
+                {React.createElement(CardStackIcon as any, { className: 'mr-2 h-4 w-4' })}
                 Billing
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <IconBell className='mr-2 h-4 w-4' />
+                {React.createElement(BellIcon as any, { className: 'mr-2 h-4 w-4' })}
                 Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <IconLogout className='mr-2 h-4 w-4' />
+              {React.createElement(ExitIcon as any, { className: 'mr-2 h-4 w-4' })}
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>

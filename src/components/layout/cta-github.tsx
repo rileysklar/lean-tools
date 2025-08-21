@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { IconBrandGithub } from '@tabler/icons-react';
+import { Github } from 'lucide-react';
 
 export default function CtaGithub() {
   return (
@@ -11,7 +11,7 @@ export default function CtaGithub() {
         target='_blank'
         className='dark:text-foreground'
       >
-        <IconBrandGithub />
+        {React.createElement(Github as any)}
       </a>
     </Button>
   );

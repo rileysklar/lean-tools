@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { ChevronUp } from 'lucide-react';
+import { ChevronUpIcon } from '@radix-ui/react-icons';
 import { cn } from '@/lib/utils';
 
 interface ScrollToTopProps {
@@ -50,7 +50,7 @@ export function ScrollToTop({ className, threshold = 400 }: ScrollToTopProps) {
       )}
       aria-label='Scroll to top'
     >
-      <ChevronUp className='h-4 w-4' />
+      {React.createElement(ChevronUpIcon as any, { className: 'h-4 w-4' })}
     </Button>
   );
 }

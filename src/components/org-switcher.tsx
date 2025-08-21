@@ -114,7 +114,7 @@ export function OrgSwitcher({
                 <span className='font-semibold'>Organization</span>
                 <span className=''>{selectedTenant.name}</span>
               </div>
-              <ChevronsUpDown className='ml-auto' />
+              {React.createElement(ChevronsUpDown as any, { className: 'ml-auto' })}
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -143,7 +143,7 @@ export function OrgSwitcher({
                   {tenant.name}
                 </div>
                 {tenant.id === selectedTenant.id && (
-                  <Check className='ml-auto' />
+                  React.createElement(Check as any, { className: 'ml-auto' })
                 )}
               </DropdownMenuItem>
             ))}

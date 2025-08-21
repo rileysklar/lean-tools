@@ -7,16 +7,11 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { AnimatedGradientText } from "@/components/magicui/animated-gradient-text"
 import { cn } from "@/lib/utils"
 import { motion } from "framer-motion"
 import {
-  ExternalLink,
-  Github,
-  BarChart,
   LineChart,
   Factory,
-  Users,
   ArrowRight
 } from "lucide-react"
 import Link from "next/link"

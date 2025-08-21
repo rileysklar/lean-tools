@@ -34,11 +34,11 @@ import { useMediaQuery } from '@/hooks/use-media-query';
 import { useUser, useClerk } from '@clerk/nextjs';
 import { useClerkOrganization } from '@/hooks/use-clerk-organization';
 import {
-  IconChevronRight,
-  IconChevronsDown,
-  IconLogout,
-  IconUserCircle
-} from '@tabler/icons-react';
+  ChevronRight,
+  ChevronsDown,
+  LogOut,
+  UserCircle
+} from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import * as React from 'react';
@@ -107,9 +107,9 @@ export default function AppSidebar() {
                         tooltip={item.title}
                         isActive={pathname === item.url}
                       >
-                        {item.icon && <Icon />}
+                        {item.icon && Icon && React.createElement(Icon as any)}
                         <span>{item.title}</span>
-                        <IconChevronRight className='ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' />
+                        {React.createElement(ChevronRight as any, { className: 'ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' })}
                       </SidebarMenuButton>
                     </CollapsibleTrigger>
                     <CollapsibleContent>
@@ -120,9 +120,7 @@ export default function AppSidebar() {
                               asChild
                               isActive={pathname === subItem.url}
                             >
-                              <Link href={subItem.url}>
-                                <span>{subItem.title}</span>
-                              </Link>
+                              {React.createElement(Link as any, { href: subItem.url }, <span>{subItem.title}</span>)}
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
                         ))}
@@ -137,10 +135,10 @@ export default function AppSidebar() {
                     tooltip={item.title}
                     isActive={pathname === item.url}
                   >
-                    <Link href={item.url}>
-                      <Icon />
-                      <span>{item.title}</span>
-                    </Link>
+                    {React.createElement(Link as any, { href: item.url }, [
+                      Icon && React.createElement(Icon as any),
+                      <span key="title">{item.title}</span>
+                    ])}
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               );
@@ -164,7 +162,7 @@ export default function AppSidebar() {
                       user={user}
                     />
                   )}
-                  <IconChevronsDown className='ml-auto size-4' />
+                  {React.createElement(ChevronsDown as any, { className: 'ml-auto size-4' })}
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent
@@ -190,13 +188,13 @@ export default function AppSidebar() {
                   <DropdownMenuItem
                     onClick={() => router.push('/dashboard/profile')}
                   >
-                    <IconUserCircle className='mr-2 h-4 w-4' />
+                    {React.createElement(UserCircle as any, { className: 'mr-2 h-4 w-4' })}
                     Profile
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleSignOut}>
-                  <IconLogout className='mr-2 h-4 w-4' />
+                  {React.createElement(LogOut as any, { className: 'mr-2 h-4 w-4' })}
                   Sign Out
                 </DropdownMenuItem>
               </DropdownMenuContent>

@@ -1,6 +1,6 @@
 'use client';
 
-import { IconBrightness } from '@tabler/icons-react';
+import { SunIcon } from '@radix-ui/react-icons';
 import { useTheme } from 'next-themes';
 import * as React from 'react';
 
@@ -39,7 +39,7 @@ export function ModeToggle() {
       className='group/toggle size-8'
       onClick={handleThemeToggle}
     >
-      <IconBrightness />
+      {React.createElement(SunIcon as any)}
       <span className='sr-only'>Toggle theme</span>
     </Button>
   );
