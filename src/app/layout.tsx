@@ -28,20 +28,20 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://leantools.com'),
+  metadataBase: new URL('https://lean-tools.vercel.app/welcome'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://leantools.com',
+    url: 'https://lean-tools.vercel.app/welcome',
     title: 'Lean Tools - Manufacturing Efficiency Dashboard',
     description: 'Real-time monitoring and analytics for production optimization across all manufacturing cells and operations.',
     siteName: 'Lean Tools',
     images: [
       {
-        url: '/leantools.png',
+        url: 'https://lean-tools.vercel.app/leantools.png',
         width: 1200,
         height: 630,
         alt: 'Lean Tools - Manufacturing Efficiency Dashboard',
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Lean Tools - Manufacturing Efficiency Dashboard',
     description: 'Real-time monitoring and analytics for production optimization across all manufacturing cells and operations.',
-    images: ['/leantools.png'],
+    images: ['https://lean-tools.vercel.app/leantools.png'],
     creator: '@leantools',
     site: '@leantools',
   },
@@ -92,17 +92,17 @@ export default async function RootLayout({
     <html lang='en' suppressHydrationWarning>
       <head>
         {/* Additional meta tags for better cross-platform compatibility */}
-        <meta name="image" content="/leantools.png" />
+        <meta name="image" content="https://lean-tools.vercel.app/leantools.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta name="twitter:image:alt" content="Lean Tools - Manufacturing Efficiency Dashboard" />
         
         {/* LinkedIn Open Graph */}
-        <meta property="og:image:secure_url" content="/leantools.png" />
+        <meta property="og:image:secure_url" content="https://lean-tools.vercel.app/leantools.png" />
         <meta property="og:image:type" content="image/png" />
         
         {/* WhatsApp and other platforms */}
-        <meta property="og:image" content="/leantools.png" />
+        <meta property="og:image" content="https://lean-tools.vercel.app/leantools.png" />
         
         <script
           dangerouslySetInnerHTML={{
