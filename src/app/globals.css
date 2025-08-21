@@ -13,10 +13,22 @@ html {
   scroll-behavior: smooth;
 }
 
+
+
 /* Custom scrollbar styles */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
+}
+
+/* Hide scrollbar for mobile tabs */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
 }
 
 ::-webkit-scrollbar-track {

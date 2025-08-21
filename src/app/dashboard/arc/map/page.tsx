@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useState, useEffect, useRef } from 'react';
 import { useThemeConfig } from '@/components/active-theme';
+import { MapPin, Loader2, RefreshCw, CheckCircle, BarChart3 } from 'lucide-react';
 
 export default function ArcMapPage() {
   const { activeTheme } = useThemeConfig();
@@ -174,28 +175,55 @@ export default function ArcMapPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              🗺️ Interactive Map
-              <div className={themeClasses.controls}>
+            <div className="flex flex-col space-y-4 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                  <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <MapPin className="h-4 w-4 text-primary" />
+                  </div>
+                  <CardTitle className="text-xl font-bold tracking-tight lg:text-2xl">
+                    Interactive Map
+                  </CardTitle>
+                </div>
+                <p className="text-muted-foreground text-sm">
+                  Visualize ArcGIS features on an interactive map
+                </p>
+              </div>
+              <div className="flex flex-col space-y-3 sm:flex-row sm:items-center sm:space-x-3 sm:space-y-0">
                 <Button
                   onClick={loadArcgisData}
                   disabled={loading || !mapLoaded}
                   size="sm"
+                  className="w-full sm:w-auto"
                 >
-                  {loading ? 'Loading...' : '🔄 Load ArcGIS Data'}
+                  {loading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Loading...
+                    </>
+                  ) : (
+                    <>
+                      <RefreshCw className="mr-2 h-4 w-4" />
+                      Load ArcGIS Data
+                    </>
+                  )}
                 </Button>
-                {mapLoaded && (
-                  <Badge variant="secondary" className={themeClasses.statusBadge}>
-                    ✅ Map Ready
-                  </Badge>
-                )}
-                {arcgisData && (
-                  <Badge variant="default" className={themeClasses.statusBadge}>
-                    📊 {arcgisData.features?.length || 0} Features
-                  </Badge>
-                )}
+                <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:space-x-2 sm:space-y-0">
+                  {mapLoaded && (
+                    <Badge variant="secondary" className="w-full sm:w-auto justify-center">
+                      <CheckCircle className="mr-1 h-3 w-3" />
+                      Map Ready
+                    </Badge>
+                  )}
+                  {arcgisData && (
+                    <Badge variant="default" className="w-full sm:w-auto justify-center">
+                      <BarChart3 className="mr-1 h-3 w-3" />
+                      {arcgisData.features?.length || 0} Features
+                    </Badge>
+                  )}
+                </div>
               </div>
-            </CardTitle>
+            </div>
           </CardHeader>
           <CardContent className="space-y-4">
             {error && (
