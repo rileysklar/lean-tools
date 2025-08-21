@@ -17,7 +17,6 @@ export default function WelcomePage() {
         <HeroSection />
         <FeaturesSection />
         <CTASection />
-        <FooterSection />
       </div>
     </>
   )

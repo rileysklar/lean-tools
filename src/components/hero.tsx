@@ -15,10 +15,16 @@ import {
   Code,
   Factory,
   BarChart,
-  LineChart
+  LineChart,
+  LayoutDashboard,
+  LogIn,
+  BarChart3,
+  UserPlus
 } from "lucide-react"
 import Link from "next/link"
 import { SignedIn, SignedOut, useAuth } from "@clerk/nextjs"
+import { ModeToggle } from "@/components/layout/ThemeToggle/theme-toggle"
+import { ThemeSelector } from "@/components/theme-selector"
 
 import { useEffect, useState, useRef } from "react"
 
@@ -120,6 +126,11 @@ export const HeroSection = () => {
       ref={heroRef}
       className="relative mb-6 flex min-h-[60vh] flex-col items-center justify-start overflow-hidden px-4 pt-12 md:mb-8 md:pt-16"
     >
+      {/* Theme Controls - Top Right on Desktop, Bottom Center on Mobile */}
+      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-3 sm:absolute sm:top-4 sm:right-4 sm:bottom-auto sm:left-auto sm:translate-x-0">
+        <ThemeSelector />
+        <ModeToggle />
+      </div>
       {/* Grid background effect with improved animation transition */}
       <div
         ref={gridRef}
@@ -205,7 +216,7 @@ export const HeroSection = () => {
               className="border-border bg-card/50 text-muted-foreground group inline-flex items-center rounded-full border px-3 py-2 text-sm leading-none no-underline backdrop-blur-sm"
             >
               <Factory className="text-primary mr-1 size-3.5" />
-              <span className="mr-1">Manufacturing Efficiency</span>
+              <span className="mr-1">Lean Tools</span>
               <span className="text-primary block transition-transform duration-300 ease-out group-hover:translate-x-0.5">
                 →
               </span>
@@ -251,11 +262,11 @@ export const HeroSection = () => {
               <Button
                 asChild
                 size="lg"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 group font-medium"
+                className="bg-primary text-primary-foreground hover:bg-primary/90 group font-medium h-12 px-20 text-base sm:h-10 sm:px-6 sm:text-sm shadow-lg"
               >
                 <Link href="/dashboard" className="flex items-center">
-                  Go to Dashboard{" "}
-                  <ArrowRight className="ml-2 size-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5" />
+                  <LayoutDashboard className="mr-2 size-5 sm:size-4" />
+                  Go to Dashboard
                 </Link>
               </Button>
             </SignedIn>
@@ -265,14 +276,14 @@ export const HeroSection = () => {
               <Button
                 asChild
                 size="lg"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 group font-medium"
+                className="bg-primary text-primary-foreground hover:bg-primary/90 group font-medium h-12 px-20 text-base sm:h-10 sm:px-6 sm:text-sm shadow-lg"
               >
                 <Link
                   href="/auth/sign-in"
                   className="flex items-center"
                 >
-                  Sign In{" "}
-                  <ArrowRight className="ml-2 size-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5" />
+                  <LogIn className="mr-2 size-5 sm:size-4" />
+                  Sign In
                 </Link>
               </Button>
             </SignedOut>
@@ -283,14 +294,14 @@ export const HeroSection = () => {
                 asChild
                 variant="outline"
                 size="lg"
-                className="border-border bg-card/50 hover:bg-card hover:text-primary group backdrop-blur-sm"
+                className="border-border bg-card/50 hover:bg-card hover:text-primary group backdrop-blur-sm h-12 px-20 text-base sm:h-10 sm:px-6 sm:text-sm"
               >
                 <Link
                   href="/dashboard"
                   className="flex items-center"
                 >
-                  View Analytics{" "}
-                  <LineChart className="ml-2 size-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5" />
+                  <BarChart3 className="mr-2 size-5 sm:size-4" />
+                  View Analytics
                 </Link>
               </Button>
             </SignedIn>
@@ -300,14 +311,14 @@ export const HeroSection = () => {
                 asChild
                 variant="outline"
                 size="lg"
-                className="border-border bg-card/50 hover:bg-card hover:text-primary group backdrop-blur-sm"
+                className="border-border bg-card/50 hover:bg-card hover:text-primary group backdrop-blur-sm h-12 px-20 text-base sm:h-10 sm:px-6 sm:text-sm"
               >
                 <Link
                   href="/auth/sign-up"
                   className="flex items-center"
                 >
-                  Sign Up{" "}
-                  <LineChart className="ml-2 size-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5" />
+                  <UserPlus className="mr-2 size-5 sm:size-4" />
+                  Sign Up
                 </Link>
               </Button>
             </SignedOut>

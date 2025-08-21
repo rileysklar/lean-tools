@@ -38,7 +38,7 @@ interface FeatureProps {
 
 const features: FeatureProps[] = [
   {
-    title: "Real-Time Efficiency Tracking",
+    title: "Real-Time Tracking",
     description:
       "Monitor production efficiency in real-time with dynamic dashboards that update as machine cycles complete.",
     icon: Activity
