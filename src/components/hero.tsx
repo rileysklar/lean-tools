@@ -254,74 +254,80 @@ export const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="z-10 flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0"
+            className="z-10 flex flex-col space-y-6"
           >
-            {/* Conditional rendering based on authentication state */}
-            <SignedIn>
-              {/* Show direct link to dashboard for signed-in users */}
-              <Button
-                asChild
-                size="lg"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 group font-medium h-12 px-20 text-base sm:h-10 sm:px-6 sm:text-sm shadow-lg"
-              >
-                <Link href="/dashboard" className="flex items-center">
-                  <LayoutDashboard className="mr-2 size-5 sm:size-4" />
-                  Go to Dashboard
-                </Link>
-              </Button>
-            </SignedIn>
-
-            <SignedOut>
-              {/* Redirect to sign-in for unauthenticated users */}
-              <Button
-                asChild
-                size="lg"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 group font-medium h-12 px-20 text-base sm:h-10 sm:px-6 sm:text-sm shadow-lg"
-              >
-                <Link
-                  href="/auth/sign-in"
-                  className="flex items-center"
+            {/* Primary Actions - Vertical Stack */}
+            <div className="flex flex-col space-y-4">
+              <SignedIn>
+                {/* Show direct link to dashboard for signed-in users */}
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 group font-medium h-12 px-20 text-base sm:h-10 sm:px-6 sm:text-sm shadow-lg"
                 >
-                  <LogIn className="mr-2 size-5 sm:size-4" />
-                  Sign In
-                </Link>
-              </Button>
-            </SignedOut>
+                  <Link href="/dashboard" className="flex items-center">
+                    <LayoutDashboard className="mr-2 size-5 sm:size-4" />
+                    Go to Dashboard
+                  </Link>
+                </Button>
+              </SignedIn>
 
-            {/* View Analytics button - conditionally rendered */}
-            <SignedIn>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="border-border bg-card/50 hover:bg-card hover:text-primary group backdrop-blur-sm h-12 px-20 text-base sm:h-10 sm:px-6 sm:text-sm"
-              >
-                <Link
-                  href="/dashboard"
-                  className="flex items-center"
+              <SignedIn>
+                {/* View Analytics button for signed-in users */}
+                <Button
+                  asChild
+                  variant="outline"
+                  size="lg"
+                  className="border-border bg-card/50 hover:bg-card hover:text-primary group backdrop-blur-sm h-12 px-20 text-base sm:h-10 sm:px-6 sm:text-sm"
                 >
-                  <BarChart3 className="mr-2 size-5 sm:size-4" />
-                  View Analytics
-                </Link>
-              </Button>
-            </SignedIn>
+                  <Link
+                    href="/dashboard/arc"
+                    className="flex items-center"
+                  >
+                    <BarChart3 className="mr-2 size-5 sm:size-4" />
+                    View Analytics
+                  </Link>
+                </Button>
+              </SignedIn>
+            </div>
 
-            <SignedOut>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="border-border bg-card/50 hover:bg-card hover:text-primary group backdrop-blur-sm h-12 px-20 text-base sm:h-10 sm:px-6 sm:text-sm"
-              >
-                <Link
-                  href="/auth/sign-up"
-                  className="flex items-center"
+            {/* Secondary Actions - Horizontal Stack */}
+            <div className="flex flex-row space-x-4">
+              <SignedOut>
+                {/* Sign In button for unauthenticated users */}
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 group font-medium h-12 px-20 text-base sm:h-10 sm:px-6 sm:text-sm shadow-lg"
                 >
-                  <UserPlus className="mr-2 size-5 sm:size-4" />
-                  Sign Up
-                </Link>
-              </Button>
-            </SignedOut>
+                  <Link
+                    href="/auth/sign-in"
+                    className="flex items-center"
+                  >
+                    <LogIn className="mr-2 size-5 sm:size-4" />
+                    Sign In
+                  </Link>
+                </Button>
+              </SignedOut>
+
+              <SignedOut>
+                {/* Sign Up button for unauthenticated users */}
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="border-border bg-card/50 hover:bg-card hover:text-primary group backdrop-blur-sm h-12 px-20 text-base sm:h-10 sm:px-6 sm:text-sm"
+                >
+                  <Link
+                    href="/auth/sign-up"
+                    className="flex items-center"
+                  >
+                    <UserPlus className="mr-2 size-5 sm:size-4" />
+                    Sign Up
+                  </Link>
+                </Button>
+              </SignedOut>
+            </div>
           </motion.div>
         </>
       )}

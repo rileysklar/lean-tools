@@ -392,7 +392,7 @@ export default function ManufacturingEfficiencyDashboard() {
             <CardContent>
               <div className="space-y-4">
                 {cellPerformanceData.map((cell, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
+                  <div key={index} className="flex flex-col space-y-4 p-4 border rounded-lg sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
                     <div className="flex items-center space-x-4">
                       <div className="w-3 h-3 rounded-full bg-green-500"></div>
                       <div>
@@ -402,16 +402,28 @@ export default function ManufacturingEfficiencyDashboard() {
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center space-x-6">
-                      <div className="text-center">
-                        <p className="text-2xl font-bold text-green-600">{cell.efficiency}%</p>
-                        <p className="text-xs text-muted-foreground">Efficiency</p>
+                    <div className="flex flex-col space-y-3 sm:flex-row sm:items-center sm:space-x-6 sm:space-y-0">
+                      <div className="flex items-center justify-between sm:flex-col sm:text-center">
+                        <div className="sm:hidden">
+                          <p className="text-sm text-muted-foreground">Efficiency</p>
+                          <p className="text-lg font-bold text-green-600">{cell.efficiency}%</p>
+                        </div>
+                        <div className="hidden sm:block">
+                          <p className="text-2xl font-bold text-green-600">{cell.efficiency}%</p>
+                          <p className="text-xs text-muted-foreground">Efficiency</p>
+                        </div>
                       </div>
-                      <div className="text-center">
-                        <p className="text-2xl font-bold text-blue-600">{cell.cycleTime}s</p>
-                        <p className="text-xs text-muted-foreground">Cycle Time</p>
+                      <div className="flex items-center justify-between sm:flex-col sm:text-center">
+                        <div className="sm:hidden">
+                          <p className="text-sm text-muted-foreground">Cycle Time</p>
+                          <p className="text-lg font-bold text-blue-600">{cell.cycleTime}s</p>
+                        </div>
+                        <div className="hidden sm:block">
+                          <p className="text-2xl font-bold text-blue-600">{cell.cycleTime}s</p>
+                          <p className="text-xs text-muted-foreground">Cycle Time</p>
+                        </div>
                       </div>
-                      <Badge variant={cell.efficiency >= 90 ? "default" : "secondary"}>
+                      <Badge variant={cell.efficiency >= 90 ? "default" : "secondary"} className="w-full sm:w-auto text-center">
                         {cell.efficiency >= 90 ? "Optimal" : "Needs Attention"}
                       </Badge>
                     </div>
