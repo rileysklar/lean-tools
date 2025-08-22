@@ -24,8 +24,22 @@ export default function SignInViewPage({ stars }: { stars: number }) {
       >
         Login
       </Link>
-      <div className='bg-muted relative hidden h-full flex-col p-10 text-white lg:flex dark:border-r'>
-        <div className='absolute inset-0 bg-zinc-900' />
+      <div className='bg-muted relative hidden h-full flex-col p-10 text-white lg:flex dark:border-r overflow-hidden'>
+        {/* YouTube Video Background */}
+        <div className='absolute inset-0 w-full h-full'>
+          <iframe
+            src="https://www.youtube.com/embed/jeDmc1UkjT4?si=-KT7gieNSA-P1_Qz&autoplay=1&mute=1&loop=1&playlist=jeDmc1UkjT4&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&vq=hd1080&start=0&end=0&fs=0&iv_load_policy=3&cc_load_policy=0&disablekb=1&enablejsapi=0&origin=https://lean-tools.vercel.app"
+            title="Background Video"
+            className='absolute inset-0 w-[200%] h-[200%] -top-[50%] object-cover scale-110'
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+          {/* Dark overlay for better text readability */}
+          <div className='absolute inset-0 bg-black/50' />
+        </div>
+        
+        {/* Logo - positioned above video */}
         <div className='relative z-20 flex items-center text-lg font-medium'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -39,16 +53,16 @@ export default function SignInViewPage({ stars }: { stars: number }) {
           >
             <path d='M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3' />
           </svg>
-          Logo
+          Lean Tools
         </div>
+        
+        {/* Testimonial - positioned above video */}
         <div className='relative z-20 mt-auto'>
           <blockquote className='space-y-2'>
             <p className='text-lg'>
-              &ldquo;This starter template has saved me countless hours of work
-              and helped me deliver projects to my clients faster than ever
-              before.&rdquo;
+              Manufacturing efficiency isn't just about making things faster—it's about turning every bolt, byte, and breath of effort into something that counts twice as much.
             </p>
-            <footer className='text-sm'>Random Dude</footer>
+            <footer className='text-sm'>Sign In to continue</footer>
           </blockquote>
         </div>
       </div>
@@ -58,7 +72,7 @@ export default function SignInViewPage({ stars }: { stars: number }) {
           <Link
             className={cn('group inline-flex hover:text-yellow-200')}
             target='_blank'
-            href={'https://github.com/kiranism/next-shadcn-dashboard-starter'}
+            href={'https://api.github.com/repos/rileysklar/lean-tools'}
           >
             <div className='flex items-center'>
               <GitHubLogoIcon className='size-4' />

@@ -25,6 +25,7 @@ export const CTASection = () => {
   }, [])
 
   return (
+    <div className="p-4">
     <div className="border-border bg-card/50 container relative mx-auto overflow-hidden rounded-lg border px-4 py-24 mb-24 backdrop-blur-sm">
       {/* Background gradient */}
       <div className="absolute inset-0 overflow-hidden">
@@ -113,6 +114,7 @@ export const CTASection = () => {
           </motion.div>
         </motion.div>
       )}
+    </div>
     </div>
   )
 }

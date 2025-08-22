@@ -11,6 +11,41 @@ This is a Manufacturing Efficiency Tracking System built with Next.js 15, React 
 
 ## 🏗️ **ARCHITECTURE PRINCIPLES**
 
+src/
+├── app/ # Next.js App Router directory
+│ ├── (auth)/ # Auth route group
+│ │ ├── (signin)/
+│ ├── (dashboard)/ # Dashboard route group
+│ │ ├── layout.tsx
+│ │ ├── loading.tsx
+│ │ └── page.tsx
+│ └── api/ # API routes
+│
+├── components/ # Shared components
+│ ├── ui/ # UI components (buttons, inputs, etc.)
+│ └── layout/ # Layout components (header, sidebar, etc.)
+│
+├── features/ # Feature-based modules
+│ ├── feature/
+│ │ ├── components/ # Feature-specific components
+│ │ ├── actions/ # Server actions
+│ │ ├── schemas/ # Form validation schemas
+│ │ └── utils/ # Feature-specific utilities
+│ │
+├── lib/ # Core utilities and configurations
+│ ├── auth/ # Auth configuration
+│ ├── db/ # Database utilities
+│ └── utils/ # Shared utilities
+│
+├── hooks/ # Custom hooks
+│ └── use-debounce.ts
+│
+├── stores/ # Zustand stores
+│ └── dashboard-store.ts
+│
+└── types/ # TypeScript types
+└── index.ts
+
 ### **1. Feature-Based Organization**
 - Organize code by business features, not technical layers
 - Each feature should be self-contained with its own components, services, and types
