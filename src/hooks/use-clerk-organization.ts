@@ -1,4 +1,4 @@
-import { useOrganization, useUser } from '@clerk/nextjs';
+import { useOrganization, useUser, useClerk } from '@clerk/nextjs';
 import { useMemo } from 'react';
 
 export interface OrganizationData {
@@ -12,6 +12,7 @@ export interface OrganizationData {
 export function useClerkOrganization() {
   const { organization, isLoaded } = useOrganization();
   const { user } = useUser();
+  const { createOrganization } = useClerk();
 
   const organizationData = useMemo(() => {
     if (!isLoaded) {
@@ -71,6 +72,7 @@ export function useClerkOrganization() {
 
   return {
     ...organizationData,
-    switchOrganization
+    switchOrganization,
+    createOrganization
   };
 }
