@@ -60,7 +60,7 @@ export default function SignInViewPage({ stars }: { stars: number }) {
         <div className='relative z-20 mt-auto'>
           <blockquote className='space-y-2'>
             <p className='text-lg'>
-              Manufacturing efficiency isn't just about making things faster—it's about turning every bolt, byte, and breath of effort into something that counts twice as much.
+              Manufacturing efficiency isn&apos;t just about making things faster—it&apos;s about turning every bolt, byte, and breath of effort into something that counts twice as much.
             </p>
             <footer className='text-sm'>Sign In to continue</footer>
           </blockquote>
