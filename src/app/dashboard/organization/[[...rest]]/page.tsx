@@ -96,7 +96,22 @@ export default function OrganizationPage() {
   // Organization is active, show the profile
   return (
     <div className="flex w-full flex-col p-4 space-y-6 overflow-y-auto">
-      {/* Organization Header */}
+            <style jsx>{`
+        :global(body) {
+          overflow: auto !important;
+        }
+      `}</style>
+      <Card>
+        <CardHeader>
+          <CardTitle>Organization Settings</CardTitle>
+          <CardDescription>
+            Manage your organization&apos;s profile, members, and settings.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <OrganizationProfile />
+        </CardContent>
+      </Card>
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -125,19 +140,6 @@ export default function OrganizationPage() {
             </div>
           </div>
         </CardHeader>
-      </Card>
-
-      {/* Organization Profile */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Organization Settings</CardTitle>
-          <CardDescription>
-            Manage your organization&apos;s profile, members, and settings.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <OrganizationProfile />
-        </CardContent>
       </Card>
     </div>
   );
