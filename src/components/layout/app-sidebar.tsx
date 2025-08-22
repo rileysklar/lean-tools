@@ -37,6 +37,7 @@ import {
   ChevronRight,
   ChevronsDown,
   LogOut,
+  User2,
   UserCircle
 } from 'lucide-react';
 import Link from 'next/link';
@@ -190,6 +191,12 @@ export default function AppSidebar() {
                   >
                     {React.createElement(UserCircle as any, { className: 'mr-2 h-4 w-4' })}
                     Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => router.push('/dashboard/organization')}
+                  >
+                    {React.createElement(User2 as any, { className: 'mr-2 h-4 w-4' })}
+                    Organization
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />

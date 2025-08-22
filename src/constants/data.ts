@@ -25,6 +25,12 @@ export const navItems: NavItem[] = [
         url: '/dashboard/profile',
         icon: 'userPen',
         shortcut: ['p', 'p']
+      },
+      {
+        title: 'Organization',
+        url: '/dashboard/organization',
+        icon: 'user2',
+        shortcut: ['o', 'o']
       }
     ]
   },
