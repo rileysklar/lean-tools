@@ -3,7 +3,7 @@
 import { OrganizationProfile, useOrganization, useOrganizationList } from '@clerk/nextjs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Plus, Building2, User, AlertCircle, Check } from 'lucide-react';
+import { Plus, Building2, AlertCircle, Check } from 'lucide-react';
 import Link from 'next/link';
 
 export default function OrganizationPage() {
@@ -78,7 +78,7 @@ export default function OrganizationPage() {
             ) : (
               <div className="text-center py-8">
                 <Building2 className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                <p className="text-muted-foreground mb-4">You're not a member of any organizations yet.</p>
+                <p className="text-muted-foreground mb-4">You&apos;re not a member of any organizations yet.</p>
                 <Button asChild>
                   <Link href="/dashboard/organization/create">
                     <Plus className="h-4 w-4 mr-2" />
@@ -95,24 +95,8 @@ export default function OrganizationPage() {
 
   // Organization is active, show the profile
   return (
-    <div className="flex w-full flex-col p-4 space-y-6 overflow-y-auto "><style jsx>{`
-      :global(body) {
-        overflow: auto !important;
-      }
-    `}</style>
+    <div className="flex w-full flex-col p-4 space-y-6 overflow-y-auto">
       {/* Organization Header */}
-            {/* Organization Profile */}
-            <Card>
-        <CardHeader>
-          <CardTitle>Organization Settings</CardTitle>
-          <CardDescription>
-            Manage your organization's profile, members, and settings.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <OrganizationProfile />
-        </CardContent>
-      </Card>
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -141,6 +125,19 @@ export default function OrganizationPage() {
             </div>
           </div>
         </CardHeader>
+      </Card>
+
+      {/* Organization Profile */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Organization Settings</CardTitle>
+          <CardDescription>
+            Manage your organization&apos;s profile, members, and settings.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <OrganizationProfile />
+        </CardContent>
       </Card>
     </div>
   );
