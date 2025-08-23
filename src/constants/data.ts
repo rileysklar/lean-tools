@@ -18,7 +18,6 @@ export const navItems: NavItem[] = [
     url: '#', // Placeholder as there is no direct link for the parent
     icon: 'userPen',
     isActive: false,
-
     items: [
       {
         title: 'Profile',
@@ -27,7 +26,7 @@ export const navItems: NavItem[] = [
         shortcut: ['p', 'p']
       },
       {
-        title: 'Organization',
+        title: 'Org',
         url: '/dashboard/organization',
         icon: 'user2',
         shortcut: ['o', 'o']
@@ -35,23 +34,22 @@ export const navItems: NavItem[] = [
     ]
   },
   {
-    title: 'Arc',
-    url: '/dashboard/arc',
-    icon: 'map', // Using map icon for Arc functionality
+    title: 'Attainment',
+    url: '/dashboard/attainment',
+    icon: 'chartBar',
     shortcut: ['a', 'a'],
-    isActive: true, // Make Arc the active/default route
+    isActive: true,
     items: [
       {
         title: 'Dashboard',
-        url: '/dashboard/arc',
+        url: '/dashboard/attainment',
         shortcut: ['a', 'd']
       },
       {
-        title: 'Map View',
-        url: '/dashboard/arc/map',
-        shortcut: ['a', 'm']
+        title: 'Tracker',
+        url: '/dashboard/attainment/tracker',
+        shortcut: ['a', 't']
       }
     ]
   }
 ];
-

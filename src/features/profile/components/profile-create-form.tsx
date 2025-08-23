@@ -29,7 +29,7 @@ import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ExclamationTriangleIcon, TrashIcon } from '@radix-ui/react-icons';
 import * as React from 'react';
-import { useParams, useRouter } from 'next/navigation';
+
 import { useState } from 'react';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 
@@ -38,15 +38,15 @@ interface ProfileFormType {
 }
 
 const ProfileCreateForm: React.FC<ProfileFormType> = ({ initialData }) => {
-  const params = useParams();
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
   const title = initialData ? 'Edit product' : 'Create Your Profile';
   const description = initialData
     ? 'Edit a product.'
     : 'To create your resume, we first need some basic information about you.';
-  const [previousStep, setPreviousStep] = useState(0);
+  const [loading] = useState(false); // Used for button disabled states
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [open, setOpen] = useState(false); // Used for modal/dialog state
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [previousStep, setPreviousStep] = useState(0); // Used for step navigation
   const [currentStep, setCurrentStep] = useState(0);
   const [data, setData] = useState({});
 
@@ -366,11 +366,16 @@ const ProfileCreateForm: React.FC<ProfileFormType> = ({ initialData }) => {
                           className='absolute right-8'
                           onClick={() => remove(index)}
                         >
-                          {React.createElement(TrashIcon as any, { className: 'h-4 w-4' })}
+                          {React.createElement(TrashIcon as any, {
+                            className: 'h-4 w-4'
+                          })}
                         </Button>
                         {errors?.jobs?.[index] && (
                           <span className='alert absolute right-8'>
-                            {React.createElement(ExclamationTriangleIcon as any, { className: 'h-4 w-4 text-red-700' })}
+                            {React.createElement(
+                              ExclamationTriangleIcon as any,
+                              { className: 'h-4 w-4 text-red-700' }
+                            )}
                           </span>
                         )}
                       </AccordionTrigger>

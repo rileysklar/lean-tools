@@ -1,79 +1,99 @@
+import React from 'react';
+import { LucideIcon, LucideProps } from 'lucide-react';
 import {
-  ExclamationTriangleIcon,
-  ArrowRightIcon,
-  CheckIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  BlendingModeIcon,
-  CardStackIcon,
-  FileIcon,
-  FileTextIcon,
-  QuestionMarkCircledIcon,
-  ImageIcon,
-  LaptopIcon,
-  DashboardIcon,
-  ReloadIcon,
-  EnterIcon,
-  BackpackIcon,
-  MoonIcon,
-  DotsVerticalIcon,
-  CircleIcon,
-  PlusIcon,
-  GearIcon,
-  SunIcon,
-  TrashIcon,
-  TwitterLogoIcon,
-  PersonIcon,
-  AvatarIcon,
-  Pencil1Icon,
-  CrossCircledIcon,
-  Cross1Icon,
-  DragHandleDots2Icon,
-  GitHubLogoIcon,
-  MagicWandIcon
-} from '@radix-ui/react-icons';
-import * as React from 'react';
+  AlertTriangle,
+  ArrowRight,
+  BarChart3,
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  Command,
+  CreditCard,
+  File,
+  FileText,
+  Github,
+  HelpCircle,
+  Image,
+  Laptop,
+  Loader2,
+  Map,
+  Moon,
+  MoreVertical,
+  Pizza,
+  Plus,
+  Settings,
+  SunMedium,
+  Trash,
+  Twitter,
+  User,
+  X,
+  type LucideIcon as LucideIconType
+} from 'lucide-react';
 
-export type Icon = React.ComponentType<any>;
+export type Icon = LucideIcon;
 
-// Create wrapper functions that use React.createElement to bypass React 19 type issues
-const createIconWrapper = (IconComponent: any) => {
-  const WrappedIcon = (props: any) => React.createElement(IconComponent, props);
-  WrappedIcon.displayName = `Wrapped${IconComponent.displayName || IconComponent.name || 'Icon'}`;
+export const Icons = {
+  logo: Command,
+  close: X,
+  spinner: Loader2,
+  chevronLeft: ChevronLeft,
+  chevronRight: ChevronRight,
+  trash: Trash,
+  post: FileText,
+  page: File,
+  media: Image,
+  settings: Settings,
+  billing: CreditCard,
+  ellipsis: MoreVertical,
+  add: Plus,
+  warning: AlertTriangle,
+  user: User,
+  arrowRight: ArrowRight,
+  help: HelpCircle,
+  pizza: Pizza,
+  sun: SunMedium,
+  moon: Moon,
+  laptop: Laptop,
+  gitHub: Github,
+  twitter: Twitter,
+  check: Check,
+  // Add missing icons referenced in navigation
+  userPen: User,
+  user2: User,
+  map: Map,
+  chartBar: BarChart3
+} as const;
+
+// Create wrapper functions that use proper TypeScript types
+const createIconWrapper = (IconComponent: LucideIconType) => {
+  const WrappedIcon = (props: LucideProps) => <IconComponent {...props} />;
   return WrappedIcon;
 };
 
-export const Icons = {
-  dashboard: createIconWrapper(DashboardIcon),
-  logo: createIconWrapper(BlendingModeIcon),
-  login: createIconWrapper(EnterIcon),
-  close: createIconWrapper(Cross1Icon),
-  product: createIconWrapper(BackpackIcon),
-  spinner: createIconWrapper(ReloadIcon),
-  kanban: createIconWrapper(DragHandleDots2Icon),
-  chevronLeft: createIconWrapper(ChevronLeftIcon),
-  chevronRight: createIconWrapper(ChevronRightIcon),
-  trash: createIconWrapper(TrashIcon),
-  employee: createIconWrapper(CrossCircledIcon),
-  post: createIconWrapper(FileTextIcon),
-  page: createIconWrapper(FileIcon),
-  userPen: createIconWrapper(Pencil1Icon),
-  user2: createIconWrapper(AvatarIcon),
-  media: createIconWrapper(ImageIcon),
-  settings: createIconWrapper(GearIcon),
-  billing: createIconWrapper(CardStackIcon),
-  ellipsis: createIconWrapper(DotsVerticalIcon),
-  add: createIconWrapper(PlusIcon),
-  warning: createIconWrapper(ExclamationTriangleIcon),
-  user: createIconWrapper(PersonIcon),
-  arrowRight: createIconWrapper(ArrowRightIcon),
-  help: createIconWrapper(QuestionMarkCircledIcon),
-  pizza: createIconWrapper(CircleIcon),
-  sun: createIconWrapper(SunIcon),
-  moon: createIconWrapper(MoonIcon),
-  laptop: createIconWrapper(LaptopIcon),
-  github: createIconWrapper(GitHubLogoIcon),
-  twitter: createIconWrapper(TwitterLogoIcon),
-  check: createIconWrapper(CheckIcon),
-  map: createIconWrapper(MagicWandIcon)
-};
+// Export wrapped icons with proper typing
+export const WrappedIcons = {
+  logo: createIconWrapper(Icons.logo),
+  close: createIconWrapper(Icons.close),
+  spinner: createIconWrapper(Icons.spinner),
+  chevronLeft: createIconWrapper(Icons.chevronLeft),
+  chevronRight: createIconWrapper(Icons.chevronRight),
+  trash: createIconWrapper(Icons.trash),
+  post: createIconWrapper(Icons.post),
+  page: createIconWrapper(Icons.page),
+  media: createIconWrapper(Icons.media),
+  settings: createIconWrapper(Icons.settings),
+  billing: createIconWrapper(Icons.billing),
+  ellipsis: createIconWrapper(Icons.ellipsis),
+  add: createIconWrapper(Icons.add),
+  warning: createIconWrapper(Icons.warning),
+  user: createIconWrapper(Icons.user),
+  arrowRight: createIconWrapper(Icons.arrowRight),
+  help: createIconWrapper(Icons.help),
+  pizza: createIconWrapper(Icons.pizza),
+  sun: createIconWrapper(Icons.sun),
+  moon: createIconWrapper(Icons.moon),
+  laptop: createIconWrapper(Icons.laptop),
+  gitHub: createIconWrapper(Icons.gitHub),
+  twitter: createIconWrapper(Icons.twitter),
+  check: createIconWrapper(Icons.check)
+} as const;

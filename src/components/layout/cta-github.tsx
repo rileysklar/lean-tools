@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Github } from 'lucide-react';
 
-export default function CtaGithub() {
+export function CtaGithub() {
   return (
     <Button variant='ghost' asChild size='sm' className='hidden sm:flex'>
       <a

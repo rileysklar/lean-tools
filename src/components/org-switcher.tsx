@@ -1,19 +1,18 @@
 'use client';
 
-import { Check, ChevronsUpDown, GalleryVerticalEnd } from 'lucide-react';
-import * as React from 'react';
-
+import React, { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import {
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem
-} from '@/components/ui/sidebar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Check, ChevronsUpDown } from 'lucide-react';
+import { useSidebar } from '@/components/ui/sidebar';
 
 interface Tenant {
   id: string;
@@ -21,135 +20,93 @@ interface Tenant {
   imageUrl?: string | null;
 }
 
+interface OrgSwitcherProps {
+  tenants: Tenant[];
+  defaultTenant: Tenant;
+  onTenantSwitch: (tenantId: string) => void;
+}
+
 export function OrgSwitcher({
   tenants,
   defaultTenant,
   onTenantSwitch
-}: {
-  tenants: Tenant[];
-  defaultTenant?: Tenant;
-  onTenantSwitch?: (tenantId: string) => void;
-}) {
-  // Debug logging
-  console.log('OrgSwitcher - Props:', { tenants, defaultTenant });
-  
-  // Create a fallback tenant if none are available
-  const fallbackTenant: Tenant = {
-    id: 'fallback',
-    name: 'Loading...',
-    imageUrl: null
-  };
-  
-  const [selectedTenant, setSelectedTenant] = React.useState<Tenant>(
-    defaultTenant || tenants[0] || fallbackTenant
-  );
+}: OrgSwitcherProps) {
+  const [selectedTenant, setSelectedTenant] = useState<Tenant>(defaultTenant);
+  const [isOpen, setIsOpen] = useState(false);
+  const { state } = useSidebar();
+  const isCollapsed = state === 'collapsed';
 
-  // Update selectedTenant when props change
-  React.useEffect(() => {
-    if (defaultTenant) {
-      setSelectedTenant(defaultTenant);
-    } else if (tenants.length > 0) {
-      setSelectedTenant(tenants[0]);
-    }
-  }, [defaultTenant, tenants]);
+  // Update selected tenant when defaultTenant changes
+  useEffect(() => {
+    setSelectedTenant(defaultTenant);
+  }, [defaultTenant]);
 
   const handleTenantSwitch = (tenant: Tenant) => {
     setSelectedTenant(tenant);
-    if (onTenantSwitch) {
-      onTenantSwitch(tenant.id);
-    }
+    setIsOpen(false);
+    onTenantSwitch(tenant.id);
   };
 
-  // Always render something, never return null
-  if (!selectedTenant) {
-    return (
-      <SidebarMenu>
-        <SidebarMenuItem>
-          <SidebarMenuButton size='lg' disabled>
-            <div className='bg-muted flex aspect-square size-8 items-center justify-center rounded-lg'>
-              <span className='text-xs text-muted-foreground'>...</span>
-            </div>
-            <div className='flex flex-col gap-0.5 leading-none'>
-              <span className='font-semibold'>Loading...</span>
-            </div>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-      </SidebarMenu>
-    );
-  }
-
-  // Get initials for the avatar
-  const getInitials = (name: string) => {
-    return name
+  const getTenantFallback = (tenant: Tenant) => {
+    if (tenant.id === 'loading') {
+      return 'LD';
+    }
+    return tenant.name
       .split(' ')
-      .map(word => word.charAt(0))
+      .map((word) => word[0])
       .join('')
       .toUpperCase()
       .slice(0, 2);
   };
 
   return (
-    <SidebarMenu>
-      <SidebarMenuItem>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <SidebarMenuButton
-              size='lg'
-              className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
-            >
-              <div className='bg-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg overflow-hidden'>
-                {selectedTenant.imageUrl ? (
-                  <img 
-                    src={selectedTenant.imageUrl} 
-                    alt={selectedTenant.name}
-                    className='w-full h-full object-cover'
-                  />
-                ) : (
-                  <span className='text-sm font-semibold'>
-                    {getInitials(selectedTenant.name)}
-                  </span>
-                )}
-              </div>
-              <div className='flex flex-col gap-0.5 leading-none'>
-                <span className='font-semibold'>Organization</span>
-                <span className=''>{selectedTenant.name}</span>
-              </div>
-              {React.createElement(ChevronsUpDown as any, { className: 'ml-auto' })}
-            </SidebarMenuButton>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            className='w-[--radix-dropdown-menu-trigger-width]'
-            align='start'
+    <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant='ghost'
+          role='combobox'
+          aria-expanded={isOpen}
+          aria-label='Select a tenant'
+          className={`hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-8 w-full px-2 ${isCollapsed ? 'w-8 justify-center px-2' : 'justify-between'}`}
+        >
+          <Avatar className='h-6 w-6'>
+            <AvatarImage
+              src={selectedTenant.imageUrl || undefined}
+              alt={selectedTenant.name}
+            />
+            <AvatarFallback className='text-xs'>
+              {getTenantFallback(selectedTenant)}
+            </AvatarFallback>
+          </Avatar>
+          {!isCollapsed && (
+            <span className='truncate'>{selectedTenant.name}</span>
+          )}
+          {!isCollapsed && <ChevronsUpDown className='ml-auto' />}
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className='w-56 min-w-[200px]'>
+        <DropdownMenuLabel>Select Organization</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        {tenants.map((tenant) => (
+          <DropdownMenuItem
+            key={tenant.id}
+            onClick={() => handleTenantSwitch(tenant)}
+            className='flex items-center gap-2'
           >
-            {tenants.map((tenant) => (
-              <DropdownMenuItem
-                key={tenant.id}
-                onSelect={() => handleTenantSwitch(tenant)}
-              >
-                <div className='flex items-center gap-2'>
-                  <div className='w-4 h-4 rounded-full overflow-hidden'>
-                    {tenant.imageUrl ? (
-                      <img 
-                        src={tenant.imageUrl} 
-                        alt={tenant.name}
-                        className='w-full h-full object-cover'
-                      />
-                    ) : (
-                      <div className='w-full h-full bg-muted flex items-center justify-center text-xs'>
-                        {getInitials(tenant.name)}
-                      </div>
-                    )}
-                  </div>
-                  {tenant.name}
-                </div>
-                {tenant.id === selectedTenant.id && (
-                  React.createElement(Check as any, { className: 'ml-auto' })
-                )}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </SidebarMenuItem>
-    </SidebarMenu>
+            <Avatar className='h-6 w-6'>
+              <AvatarImage
+                src={tenant.imageUrl || undefined}
+                alt={tenant.name}
+              />
+              <AvatarFallback className='text-xs'>
+                {getTenantFallback(tenant)}
+              </AvatarFallback>
+            </Avatar>
+            <span className='truncate'>{tenant.name}</span>
+            {selectedTenant.id === tenant.id && <Check className='ml-auto' />}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

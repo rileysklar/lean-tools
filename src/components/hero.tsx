@@ -4,137 +4,132 @@
  * The gradient background uses theme-aware colors with slow, random movement.
  */
 
-"use client"
+'use client';
 
-import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
-import { motion } from "framer-motion"
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
 import {
-  ArrowRight,
-  Github,
-  Code,
   Factory,
-  BarChart,
-  LineChart,
+  BarChart3,
   LayoutDashboard,
   LogIn,
-  BarChart3,
   UserPlus
-} from "lucide-react"
-import Link from "next/link"
-import { SignedIn, SignedOut, useAuth } from "@clerk/nextjs"
-import { ModeToggle } from "@/components/layout/ThemeToggle/theme-toggle"
-import { ThemeSelector } from "@/components/theme-selector"
+} from 'lucide-react';
+import Link from 'next/link';
+import { SignedIn, SignedOut } from '@clerk/nextjs';
+import { ModeToggle } from '@/components/layout/ThemeToggle/theme-toggle';
+import { ThemeSelector } from '@/components/theme-selector';
 
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef } from 'react';
 
 export const HeroSection = () => {
-  const [mounted, setMounted] = useState(false)
-  const [gradientPosition, setGradientPosition] = useState({ x: 50, y: 50 })
+  const [mounted, setMounted] = useState(false);
+  const [gradientPosition, setGradientPosition] = useState({ x: 50, y: 50 });
   const [gradientPositions, setGradientPositions] = useState<
     Array<{ x: number; y: number }>
   >([
     { x: 30, y: 70 },
     { x: 70, y: 30 }
-  ])
-  const heroRef = useRef<HTMLDivElement>(null)
-  const gridRef = useRef<HTMLDivElement>(null)
-  const animationRef = useRef<number | null>(null)
-  const targetRef = useRef({ x: 50, y: 50 })
+  ]);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const animationRef = useRef<number | null>(null);
+  const targetRef = useRef({ x: 50, y: 50 });
 
   // useEffect only runs on the client, so now we can safely show the UI
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
   // Improved random gradient movement effect
   useEffect(() => {
-    if (!mounted) return
+    if (!mounted) return;
 
     // Function to generate a random position within bounds with more natural constraints
     const generateRandomPosition = () => {
       // Get current position to ensure smooth transition
-      const current = targetRef.current
+      const current = targetRef.current;
 
       // Generate new position within a reasonable range from current
       // This creates more natural movement rather than jumping across the screen
       return {
         x: Math.max(10, Math.min(90, current.x + (Math.random() - 0.5) * 50)),
         y: Math.max(10, Math.min(90, current.y + (Math.random() - 0.5) * 50))
-      }
-    }
+      };
+    };
 
     // Function to update gradient position
     const animateGradients = () => {
       // Generate new targets when needed
       if (!targetRef.current) {
-        targetRef.current = { x: 50, y: 50 }
+        targetRef.current = { x: 50, y: 50 };
       }
 
       // Slowly move toward the target position
-      setGradientPosition(prev => {
+      setGradientPosition((prev) => {
         // Create smoother animation with variable speed (slower as it approaches target)
         const distance = Math.sqrt(
           Math.pow(targetRef.current.x - prev.x, 2) +
             Math.pow(targetRef.current.y - prev.y, 2)
-        )
+        );
 
         // Adjust speed based on distance - slower when close, faster when far
         // Increased speed values for quicker movement
-        const speed = Math.max(0.003, Math.min(0.015, distance * 0.001))
+        const speed = Math.max(0.003, Math.min(0.015, distance * 0.001));
 
         // Calculate next position with dynamic speed
-        const nextX = prev.x + (targetRef.current.x - prev.x) * speed
-        const nextY = prev.y + (targetRef.current.y - prev.y) * speed
+        const nextX = prev.x + (targetRef.current.x - prev.x) * speed;
+        const nextY = prev.y + (targetRef.current.y - prev.y) * speed;
 
         // Check if we're close enough to the target to generate a new one
         // Increased threshold for more frequent position changes
         if (distance < 2) {
           // Generate a new target position
-          targetRef.current = generateRandomPosition()
+          targetRef.current = generateRandomPosition();
 
           // Also update trailing positions for a fluid effect
-          setGradientPositions(current => {
+          setGradientPositions((current) => {
             // Create new positions array with current as first, and shifting others
             return [
               { x: prev.x, y: prev.y },
               { x: current[0].x, y: current[0].y }
-            ]
-          })
+            ];
+          });
         }
 
-        return { x: nextX, y: nextY }
-      })
+        return { x: nextX, y: nextY };
+      });
 
       // Continue the animation loop
-      animationRef.current = requestAnimationFrame(animateGradients)
-    }
+      animationRef.current = requestAnimationFrame(animateGradients);
+    };
 
     // Start the animation
-    animateGradients()
+    animateGradients();
 
     // Cleanup
     return () => {
       if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current)
+        cancelAnimationFrame(animationRef.current);
       }
-    }
-  }, [mounted])
+    };
+  }, [mounted]);
 
   return (
     <div
       ref={heroRef}
-      className="relative mb-6 flex min-h-[60vh] flex-col items-center justify-start overflow-hidden px-4 pt-12 md:mb-8 md:pt-16"
+      className='relative mb-6 flex min-h-[60vh] flex-col items-center justify-start overflow-hidden px-4 pt-12 md:mb-8 md:pt-16'
     >
       {/* Theme Controls - Top Right on Desktop, Bottom Center on Mobile */}
-      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-3 sm:absolute sm:top-4 sm:right-4 sm:bottom-auto sm:left-auto sm:translate-x-0">
+      <div className='fixed bottom-4 left-1/2 z-20 flex -translate-x-1/2 items-center gap-3 sm:absolute sm:top-4 sm:right-4 sm:bottom-auto sm:left-auto sm:translate-x-0'>
         <ThemeSelector />
         <ModeToggle />
       </div>
       {/* Grid background effect with improved animation transition */}
       <div
         ref={gridRef}
-        className="absolute inset-0 z-0"
+        className='absolute inset-0 z-0'
         style={{
           backgroundImage: `
             radial-gradient(
@@ -151,7 +146,7 @@ export const HeroSection = () => {
               var(--highlight-gradient-to, rgba(62, 207, 142, 0.01)) 30%, 
               transparent 60%
             )`
-                : ""
+                : ''
             }
             ${
               gradientPositions[1]
@@ -161,11 +156,11 @@ export const HeroSection = () => {
               var(--highlight-gradient-to, rgba(62, 207, 142, 0.005)) 25%, 
               transparent 50%
             )`
-                : ""
+                : ''
             }
           `,
-          backgroundSize: "100% 100%",
-          transition: "background 1.5s cubic-bezier(0.22, 1, 0.36, 1)",
+          backgroundSize: '100% 100%',
+          transition: 'background 1.5s cubic-bezier(0.22, 1, 0.36, 1)',
           maskImage: `radial-gradient(
             circle at 50% 50%, 
             rgba(0, 0, 0, 1) 0%, 
@@ -173,18 +168,18 @@ export const HeroSection = () => {
             rgba(0, 0, 0, 0.5) 65%, 
             rgba(0, 0, 0, 0) 100%
           )`,
-          maskSize: "200% 200%"
+          maskSize: '200% 200%'
         }}
       >
         {/* Grid lines */}
         <div
-          className="absolute inset-0"
+          className='absolute inset-0'
           style={{
             backgroundImage: `
               linear-gradient(to right, var(--grid-line-color, rgba(98, 98, 98, 0.1)) 1px, transparent 1px),
               linear-gradient(to bottom, var(--grid-line-color, rgba(57, 57, 57, 0.15)) 1px, transparent 1px)
             `,
-            backgroundSize: "clamp(20px, 5vw, 40px) clamp(20px, 5vw, 40px)"
+            backgroundSize: 'clamp(20px, 5vw, 40px) clamp(20px, 5vw, 40px)'
           }}
         />
       </div>
@@ -192,12 +187,12 @@ export const HeroSection = () => {
       {!mounted ? (
         // Placeholder while loading - updated to match actual content
         <>
-          <div className="bg-muted mb-4 h-8 w-48 animate-pulse rounded-md"></div>
-          <div className="bg-muted mb-4 h-12 w-64 animate-pulse rounded-md"></div>
-          <div className="bg-muted mb-8 h-4 w-48 animate-pulse rounded-md"></div>
-          <div className="flex gap-4">
-            <div className="bg-muted h-10 w-40 animate-pulse rounded-md"></div>
-            <div className="bg-muted h-10 w-40 animate-pulse rounded-md"></div>
+          <div className='bg-muted mb-4 h-8 w-48 animate-pulse rounded-md'></div>
+          <div className='bg-muted mb-4 h-12 w-64 animate-pulse rounded-md'></div>
+          <div className='bg-muted mb-8 h-4 w-48 animate-pulse rounded-md'></div>
+          <div className='flex gap-4'>
+            <div className='bg-muted h-10 w-40 animate-pulse rounded-md'></div>
+            <div className='bg-muted h-10 w-40 animate-pulse rounded-md'></div>
           </div>
         </>
       ) : (
@@ -207,17 +202,17 @@ export const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="z-10 mb-4"
+            className='z-10 mb-4'
           >
             <Link
-              href="#"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="border-border bg-card/50 text-muted-foreground group inline-flex items-center rounded-full border px-3 py-2 text-sm leading-none no-underline backdrop-blur-sm"
+              href='#'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='border-border bg-card/50 text-muted-foreground group inline-flex items-center rounded-full border px-3 py-2 text-sm leading-none no-underline backdrop-blur-sm'
             >
-              <Factory className="text-primary mr-1 size-3.5" />
-              <span className="mr-1">Lean Tools</span>
-              <span className="text-primary block transition-transform duration-300 ease-out group-hover:translate-x-0.5">
+              <Factory className='text-primary mr-1 size-3.5' />
+              <span className='mr-1'>Lean Tools</span>
+              <span className='text-primary block transition-transform duration-300 ease-out group-hover:translate-x-0.5'>
                 →
               </span>
             </Link>
@@ -227,15 +222,15 @@ export const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="z-10 mb-4 text-center"
+            className='z-10 mb-4 text-center'
           >
             <h1
               className={cn(
-                "text-balance text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl"
+                'text-4xl font-bold tracking-tight text-balance sm:text-5xl md:text-6xl'
               )}
             >
-              <span className="text-foreground block">Track progress</span>
-              <span className="text-primary block">Reward success</span>
+              <span className='text-foreground block'>Track progress</span>
+              <span className='text-primary block'>Reward success</span>
             </h1>
           </motion.div>
 
@@ -243,7 +238,7 @@ export const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-muted-foreground z-10 mb-8 max-w-[700px] text-balance text-center md:text-xl"
+            className='text-muted-foreground z-10 mb-8 max-w-[700px] text-center text-balance md:text-xl'
           >
             Track and optimize production efficiency in real-time. Log machine
             cycles, identify bottlenecks, measure cycle times, and dynamically
@@ -254,19 +249,19 @@ export const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="z-10 flex flex-col space-y-6"
+            className='z-10 flex flex-col space-y-6'
           >
             {/* Primary Actions - Vertical Stack */}
-            <div className="flex flex-col space-y-4">
+            <div className='flex flex-col space-y-4'>
               <SignedIn>
                 {/* Show direct link to dashboard for signed-in users */}
                 <Button
                   asChild
-                  size="lg"
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 group font-medium h-12 px-20 text-base sm:h-10 sm:px-6 sm:text-sm shadow-lg"
+                  size='lg'
+                  className='bg-primary text-primary-foreground hover:bg-primary/90 group h-12 px-20 text-base font-medium shadow-lg sm:h-10 sm:px-6 sm:text-sm'
                 >
-                  <Link href="/dashboard" className="flex items-center">
-                    <LayoutDashboard className="mr-2 size-5 sm:size-4" />
+                  <Link href='/dashboard' className='flex items-center'>
+                    <LayoutDashboard className='mr-2 size-5 sm:size-4' />
                     Go to Dashboard
                   </Link>
                 </Button>
@@ -276,15 +271,15 @@ export const HeroSection = () => {
                 {/* View Analytics button for signed-in users */}
                 <Button
                   asChild
-                  variant="outline"
-                  size="lg"
-                  className="border-border bg-card/50 hover:bg-card hover:text-primary group backdrop-blur-sm h-12 px-20 text-base sm:h-10 sm:px-6 sm:text-sm"
+                  variant='outline'
+                  size='lg'
+                  className='border-border bg-card/50 hover:bg-card hover:text-primary group h-12 px-20 text-base backdrop-blur-sm sm:h-10 sm:px-6 sm:text-sm'
                 >
                   <Link
-                    href="/dashboard/arc"
-                    className="flex items-center"
+                    href='/dashboard/attainment'
+                    className='flex items-center'
                   >
-                    <BarChart3 className="mr-2 size-5 sm:size-4" />
+                    <BarChart3 className='mr-2 size-5 sm:size-4' />
                     View Analytics
                   </Link>
                 </Button>
@@ -292,19 +287,16 @@ export const HeroSection = () => {
             </div>
 
             {/* Secondary Actions - Horizontal Stack */}
-            <div className="flex flex-row space-x-4">
+            <div className='flex flex-row space-x-4'>
               <SignedOut>
                 {/* Sign In button for unauthenticated users */}
                 <Button
                   asChild
-                  size="lg"
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 group font-medium h-12 px-20 text-base sm:h-10 sm:px-6 sm:text-sm shadow-lg"
+                  size='lg'
+                  className='bg-primary text-primary-foreground hover:bg-primary/90 group h-12 px-20 text-base font-medium shadow-lg sm:h-10 sm:px-6 sm:text-sm'
                 >
-                  <Link
-                    href="/auth/sign-in"
-                    className="flex items-center"
-                  >
-                    <LogIn className="mr-2 size-5 sm:size-4" />
+                  <Link href='/auth/sign-in' className='flex items-center'>
+                    <LogIn className='mr-2 size-5 sm:size-4' />
                     Sign In
                   </Link>
                 </Button>
@@ -314,15 +306,12 @@ export const HeroSection = () => {
                 {/* Sign Up button for unauthenticated users */}
                 <Button
                   asChild
-                  size="lg"
-                  variant="outline"
-                  className="border-border bg-card/50 hover:bg-card hover:text-primary group backdrop-blur-sm h-12 px-20 text-base sm:h-10 sm:px-6 sm:text-sm"
+                  size='lg'
+                  variant='outline'
+                  className='border-border bg-card/50 hover:bg-card hover:text-primary group h-12 px-20 text-base backdrop-blur-sm sm:h-10 sm:px-6 sm:text-sm'
                 >
-                  <Link
-                    href="/auth/sign-up"
-                    className="flex items-center"
-                  >
-                    <UserPlus className="mr-2 size-5 sm:size-4" />
+                  <Link href='/auth/sign-up' className='flex items-center'>
+                    <UserPlus className='mr-2 size-5 sm:size-4' />
                     Sign Up
                   </Link>
                 </Button>
@@ -332,5 +321,5 @@ export const HeroSection = () => {
         </>
       )}
     </div>
-  )
-}
+  );
+};

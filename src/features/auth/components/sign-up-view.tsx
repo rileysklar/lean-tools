@@ -24,21 +24,21 @@ export default function SignUpViewPage({ stars }: { stars: number }) {
       >
         Sign Up
       </Link>
-      <div className='bg-muted relative hidden h-full flex-col p-10 text-white lg:flex dark:border-r overflow-hidden'>
+      <div className='bg-muted relative hidden h-full flex-col overflow-hidden p-10 text-white lg:flex dark:border-r'>
         {/* YouTube Video Background */}
-        <div className='absolute inset-0 w-full h-full'>
+        <div className='absolute inset-0 h-full w-full'>
           <iframe
-            src="https://www.youtube.com/embed/jeDmc1UkjT4?si=-KT7gieNSA-P1_Qz&autoplay=1&mute=1&loop=1&playlist=jeDmc1UkjT4&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&vq=hd1080&start=0&end=0&fs=0&iv_load_policy=3&cc_load_policy=0&disablekb=1&enablejsapi=0&origin=https://lean-tools.vercel.app"
-            title="Background Video"
-            className='absolute inset-0 w-[200%] h-[200%] -top-[50%] object-cover scale-110'
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            src='https://www.youtube.com/embed/jeDmc1UkjT4?si=-KT7gieNSA-P1_Qz&autoplay=1&mute=1&loop=1&playlist=jeDmc1UkjT4&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&vq=hd1080&start=0&end=0&fs=0&iv_load_policy=3&cc_load_policy=0&disablekb=1&enablejsapi=0&origin=https://lean-tools.vercel.app'
+            title='Background Video'
+            className='absolute inset-0 -top-[50%] h-[200%] w-[200%] scale-110 object-cover'
+            frameBorder='0'
+            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
             allowFullScreen
           />
           {/* Dark overlay for better text readability */}
           <div className='absolute inset-0 bg-black/50' />
         </div>
-        
+
         {/* Logo - positioned above video */}
         <div className='relative z-20 flex items-center text-lg font-medium'>
           <svg
@@ -55,12 +55,15 @@ export default function SignUpViewPage({ stars }: { stars: number }) {
           </svg>
           Logo
         </div>
-        
+
         {/* Testimonial - positioned above video */}
         <div className='relative z-20 mt-auto'>
           <blockquote className='space-y-2'>
             <p className='text-lg'>
-            Manufacturing efficiency isn’t just about making things faster—it’s about turning every bolt, byte, and breath of effort into something that counts twice as much.            </p>
+              Manufacturing efficiency isn’t just about making things
+              faster—it’s about turning every bolt, byte, and breath of effort
+              into something that counts twice as much.{' '}
+            </p>
             <footer className='text-sm'>Sign Up to get started</footer>
           </blockquote>
         </div>
@@ -79,14 +82,15 @@ export default function SignUpViewPage({ stars }: { stars: number }) {
             </div>
             <div className='ml-2 flex items-center gap-1 text-sm md:flex'>
               {React.createElement(StarIcon as any, {
-                className: 'size-4 text-gray-500 transition-all duration-300 group-hover:text-yellow-300',
+                className:
+                  'size-4 text-gray-500 transition-all duration-300 group-hover:text-yellow-300',
                 fill: 'currentColor'
               })}
               <span className='font-display font-medium'>{stars}</span>
             </div>
           </Link>
           <ClerkSignUpForm
-            redirectUrl="/dashboard/arc"
+            redirectUrl='/dashboard/attainment'
             initialValues={{
               emailAddress: 'your_mail+clerk_test@example.com'
             }}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
-export default function PageContainer({
+export function PageContainer({
   children,
   scrollable = true,
   className = ''
@@ -17,7 +17,9 @@ export default function PageContainer({
           <div className='flex flex-1'>{children}</div>
         </ScrollArea>
       ) : (
-        <div className={`flex flex-1 ${className}`}>{children}</div>
+        <div className={`h-[calc(100dvh-52px)] ${className}`}>
+          <div className='flex flex-1'>{children}</div>
+        </div>
       )}
     </>
   );

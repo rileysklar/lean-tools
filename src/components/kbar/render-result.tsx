@@ -1,7 +1,7 @@
 import { KBarResults, useMatches } from 'kbar';
 import ResultItem from './result-item';
 
-export default function RenderResults() {
+export function RenderResults() {
   const { results, rootActionId } = useMatches();
 
   return (

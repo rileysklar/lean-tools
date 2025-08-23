@@ -1,78 +1,126 @@
-import { useOrganization, useUser, useClerk } from '@clerk/nextjs';
-import { useMemo } from 'react';
+import { useOrganization, useUser } from '@clerk/nextjs';
+import { useCallback, useState, useEffect } from 'react';
 
-export interface OrganizationData {
+interface Organization {
   id: string;
   name: string;
   imageUrl?: string | null;
-  plan?: string;
-  role?: string;
 }
 
 export function useClerkOrganization() {
-  const { organization, isLoaded } = useOrganization();
-  const { user } = useUser();
-  const { createOrganization } = useClerk();
+  const { organization, isLoaded: orgLoaded } = useOrganization();
+  const { user, isLoaded: userLoaded } = useUser();
+  const [current, setCurrent] = useState<Organization | null>(null);
+  const [available, setAvailable] = useState<Organization[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
 
-  const organizationData = useMemo(() => {
-    if (!isLoaded) {
-      return {
-        current: undefined,
-        available: [],
-        isLoading: true,
-        isPersonal: false
-      };
-    }
+  // Update current organization when Clerk data changes
+  useEffect(() => {
+    if (!orgLoaded || !userLoaded) return;
 
-    if (!organization) {
-      // User is not in an organization - personal workspace
-      const personalOrg = {
+    try {
+      if (organization) {
+        setCurrent({
+          id: organization.id,
+          name: organization.name,
+          imageUrl: organization.imageUrl
+        });
+      } else {
+        // User is not in an organization, create personal workspace
+        setCurrent({
+          id: 'personal',
+          name: 'Personal Workspace',
+          imageUrl: undefined
+        });
+      }
+
+      // Get available organizations from user memberships
+      if (user?.organizationMemberships) {
+        const orgs: Organization[] = user.organizationMemberships.map(
+          (membership) => ({
+            id: membership.organization.id,
+            name: membership.organization.name,
+            imageUrl: membership.organization.imageUrl || undefined
+          })
+        );
+
+        // Add personal workspace if user is not in any organization
+        if (orgs.length === 0) {
+          orgs.push({
+            id: 'personal',
+            name: 'Personal Workspace',
+            imageUrl: undefined
+          });
+        }
+
+        setAvailable(orgs);
+      } else {
+        // Fallback to personal workspace
+        setAvailable([
+          {
+            id: 'personal',
+            name: 'Personal Workspace',
+            imageUrl: undefined
+          }
+        ]);
+      }
+
+      setError(null);
+    } catch (err) {
+      const orgError = new Error('Failed to load organization data');
+      setError(orgError);
+
+      // Fallback to personal workspace
+      setCurrent({
         id: 'personal',
-        name: user?.firstName ? `${user.firstName}'s Workspace` : 'Personal Workspace',
-        imageUrl: user?.imageUrl,
-        plan: 'Personal',
-        role: 'Owner'
-      };
-      
-      return {
-        current: personalOrg,
-        available: [personalOrg],
-        isLoading: false,
-        isPersonal: true
-      };
+        name: 'Personal Workspace',
+        imageUrl: undefined
+      });
+      setAvailable([
+        {
+          id: 'personal',
+          name: 'Personal Workspace',
+          imageUrl: undefined
+        }
+      ]);
+    } finally {
+      setIsLoading(false);
     }
+  }, [organization, user, orgLoaded, userLoaded]);
 
-    // User is in an organization
-    const orgData = {
-      id: organization.id,
-      name: organization.name || 'Unnamed Organization',
-      imageUrl: organization.imageUrl,
-      plan: 'Organization', // Default plan for organizations
-      role: 'Member' // Default role
-    };
-    
-    return {
-      current: orgData,
-      available: [orgData],
-      isLoading: false,
-      isPersonal: false
-    };
-  }, [organization, isLoaded, user]);
-
-  const switchOrganization = async (orgId: string) => {
-    if (orgId === 'personal') {
-      // Switch to personal workspace
-      // This would typically involve Clerk's organization switching
-      console.log('Switching to personal workspace');
-    } else {
-      // Switch to specific organization
-      console.log('Switching to organization:', orgId);
-    }
-  };
+  const switchOrganization = useCallback(
+    async (orgId: string) => {
+      try {
+        if (orgId === 'personal') {
+          // Switch to personal workspace
+          // In Clerk, this means leaving the current organization
+          // You might need to implement this based on your Clerk setup
+          setCurrent({
+            id: 'personal',
+            name: 'Personal Workspace',
+            imageUrl: undefined
+          });
+        } else {
+          // Find the organization in available list
+          const targetOrg = available.find((org) => org.id === orgId);
+          if (targetOrg) {
+            setCurrent(targetOrg);
+          }
+        }
+      } catch (err) {
+        const switchError = new Error('Failed to switch organization');
+        setError(switchError);
+      }
+    },
+    [available]
+  );
 
   return {
-    ...organizationData,
-    switchOrganization,
-    createOrganization
+    current,
+    available,
+    isLoading,
+    error,
+    switchOrganization
   };
 }

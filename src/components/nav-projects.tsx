@@ -21,10 +21,10 @@ import {
   SidebarMenu,
   SidebarMenuAction,
   SidebarMenuButton,
-  SidebarMenuItem,
-  useSidebar
+  SidebarMenuItem
 } from '@/components/ui/sidebar';
 import { Icon } from '@/components/icons';
+import { useMobile } from '@/hooks/use-mobile';
 
 export function NavProjects({
   projects
@@ -35,7 +35,7 @@ export function NavProjects({
     icon: Icon;
   }[];
 }) {
-  const { isMobile } = useSidebar();
+  const { isMobile } = useMobile();
 
   return (
     <SidebarGroup className='group-data-[collapsible=icon]:hidden'>
@@ -62,16 +62,22 @@ export function NavProjects({
                 align={isMobile ? 'end' : 'start'}
               >
                 <DropdownMenuItem>
-                  {React.createElement(FileIcon as any, { className: 'text-muted-foreground mr-2 h-4 w-4' })}
+                  {React.createElement(FileIcon as any, {
+                    className: 'text-muted-foreground mr-2 h-4 w-4'
+                  })}
                   <span>View Project</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  {React.createElement(Share1Icon as any, { className: 'text-muted-foreground mr-2 h-4 w-4' })}
+                  {React.createElement(Share1Icon as any, {
+                    className: 'text-muted-foreground mr-2 h-4 w-4'
+                  })}
                   <span>Share Project</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                  {React.createElement(TrashIcon as any, { className: 'text-muted-foreground mr-2 h-4 w-4' })}
+                  {React.createElement(TrashIcon as any, {
+                    className: 'text-muted-foreground mr-2 h-4 w-4'
+                  })}
                   <span>Delete Project</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -80,7 +86,9 @@ export function NavProjects({
         ))}
         <SidebarMenuItem>
           <SidebarMenuButton className='text-sidebar-foreground/70'>
-            {React.createElement(DotsHorizontalIcon as any, { className: 'text-sidebar-foreground/70' })}
+            {React.createElement(DotsHorizontalIcon as any, {
+              className: 'text-sidebar-foreground/70'
+            })}
             <span>More</span>
           </SidebarMenuButton>
         </SidebarMenuItem>
