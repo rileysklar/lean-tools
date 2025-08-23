@@ -40,9 +40,6 @@ src/
 ├── hooks/ # Custom hooks
 │ └── use-debounce.ts
 │
-├── stores/ # Zustand stores
-│ └── dashboard-store.ts
-│
 └── types/ # TypeScript types
 └── index.ts
 

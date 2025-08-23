@@ -1,14 +1,14 @@
 import React from 'react';
-import { SidebarTrigger } from '../ui/sidebar';
-import { Separator } from '../ui/separator';
-import { Breadcrumbs } from '../breadcrumbs';
-import SearchInput from '../search-input';
-import { UserNav } from './user-nav';
-import { ThemeSelector } from '../theme-selector';
-import { ModeToggle } from './ThemeToggle/theme-toggle';
-import CtaGithub from './cta-github';
+import { SidebarTrigger } from '@/components/ui/sidebar';
+import { Separator } from '@/components/ui/separator';
+import { Breadcrumbs } from '@/components/breadcrumbs';
+import { SearchInput } from '@/components/search-input';
+import { UserNav } from '@/components/layout/user-nav';
+import { ThemeSelector } from '@/components/theme-selector';
+import { ModeToggle } from '@/components/layout/ThemeToggle/theme-toggle';
+import { CtaGithub } from '@/components/layout/cta-github';
 
-export default function Header() {
+export function Header() {
   return (
     <header className='flex h-16 shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12'>
       <div className='flex items-center gap-2 px-4'>

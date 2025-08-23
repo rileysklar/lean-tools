@@ -1,19 +1,23 @@
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/9113740/201498864-2a900c64-d88f-4ed4-b5cf-770bcb57e1f5.png">
-  <source media="(prefers-color-scheme: light)" srcset="https://user-images.githubusercontent.com/9113740/201498152-b171abb8-9225-487a-821c-6ff49ee48579.png">
-</picture>
+# Manufacturing Efficiency Tracking System
 
-<div align="center"><strong>Next.js Admin Dashboard Starter Template With Shadcn-ui</strong></div>
-<div align="center">Built with the Next.js 15 App Router</div>
-<br />
 <div align="center">
-<a href="https://dub.sh/shadcn-dashboard">View Demo</a>
-<span>
+  <strong>Industrial Production Efficiency & Machine Cycle Tracking</strong>
+</div>
+<div align="center">Built with Next.js 15, React 18, TypeScript, and Supabase</div>
+
+<br />
+
+<div align="center">
+  <a href="#overview">Overview</a> •
+  <a href="#features">Features</a> •
+  <a href="#tech-stack">Tech Stack</a> •
+  <a href="#getting-started">Getting Started</a> •
+  <a href="#database-setup">Database Setup</a>
 </div>
 
 ## Overview
 
-This is a starter template using the following stack:
+The Manufacturing Efficiency Tracking System is designed for industrial production facilities to track and optimize efficiency. It logs machine cycles, identifies bottlenecks, measures cycle times, and allows for dynamic adjustments to production standards.
 
 - Framework - [Next.js 15](https://nextjs.org/13)
 - Runtime - [React 18](https://react.dev) (Stable compatibility with ecosystem)
@@ -33,140 +37,234 @@ This is a starter template using the following stack:
 - Pre-commit Hooks - [Husky](https://typicode.github.io/husky/)
 - Formatting - [Prettier](https://prettier.io)
 
-_If you are looking for a Tanstack start dashboard template, here is the [repo](https://git.new/tanstack-start-dashboard)._
+## Features
 
-## Pages
+### 🏭 **Production Management**
+- **Multi-tenant Architecture** - Support for multiple organizations and sites
+- **Value Stream Mapping** - Hierarchical organization of production cells
+- **Real-time Efficiency Tracking** - Live monitoring of machine performance
+- **Cycle Time Analysis** - Target vs. actual cycle time comparison
 
-| Pages                                                                                 | Specifications                                                                                                                                                                                                                                                          |
-| :------------------------------------------------------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Signup / Signin](https://go.clerk.com/ILdYhn7)      | Authentication with **Clerk** provides secure authentication and user management with multiple sign-in options including passwordless authentication, social logins, and enterprise SSO - all designed to enhance security while delivering a seamless user experience. |
-| [Dashboard (Overview)](https://shadcn-dashboard.kiranism.dev/dashboard)    | Cards with Recharts graphs for analytics. Parallel routes in the overview sections feature independent loading, error handling, and isolated component rendering. |
-| [Product](https://shadcn-dashboard.kiranism.dev/dashboard/product)         | Tanstack tables with server side searching, filter, pagination by Nuqs which is a Type-safe search params state manager in nextjs                                                                                                                                       |
-| [Product/new](https://shadcn-dashboard.kiranism.dev/dashboard/product/new) | A Product Form with shadcn form (react-hook-form + zod).                                                                                                                                                                                                                |
-| [Profile](https://shadcn-dashboard.kiranism.dev/dashboard/profile)         | Clerk's full-featured account management UI that allows users to manage their profile and security settings                                                                                                                                                             |
-| [Kanban Board](https://shadcn-dashboard.kiranism.dev/dashboard/kanban)     | A Drag n Drop task management board with dnd-kit and zustand to persist state locally.                                                                                                                                                                                  |
-| [Not Found](https://shadcn-dashboard.kiranism.dev/dashboard/notfound)      | Not Found Page Added in the root level                                                                                                                                                                                                                                  |
-| [Global Error](https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy26q2-nextjs&utm_content=github-banner-project-tryfree)           | A centralized error page that captures and displays errors across the application. Integrated with **Sentry** to log errors, provide detailed reports, and enable replay functionality for better debugging. |
+### 🔐 **Security & Access Control**
+- **Clerk Authentication** - Enterprise-grade user management
+- **Role-Based Access Control (RBAC)** - Admin, Manager, Operator roles
+- **Protected Routes** - Secure access to sensitive operations
+- **Row Level Security** - Database-level data isolation
 
-## Feature based organization
+### 📊 **Analytics & Reporting**
+- **Efficiency Dashboards** - Real-time performance metrics
+- **Downtime Tracking** - Planned and unplanned stoppage monitoring
+- **Issue Management** - Problem tracking and resolution workflows
+- **Historical Analysis** - Trend analysis and performance optimization
+
+### ⚡ **Real-time Capabilities**
+- **Live Updates** - WebSocket-based real-time data synchronization
+- **Instant Notifications** - Real-time alerts for critical events
+- **Live Efficiency Metrics** - Continuous monitoring of production KPIs
+
+## Tech Stack
+
+- **Framework** - [Next.js 15](https://nextjs.org/) with App Router
+- **Runtime** - [React 18](https://react.dev) (Stable compatibility)
+- **Language** - [TypeScript](https://www.typescriptlang.org)
+- **Authentication** - [Clerk](https://clerk.com/) (Enterprise auth)
+- **Database** - [Supabase](https://supabase.com/) (PostgreSQL + Real-time)
+- **Styling** - [Tailwind CSS](https://tailwindcss.com) with CSS Variables
+- **Components** - [ShadCN/UI](https://ui.shadcn.com) (Radix UI primitives)
+- **State Management** - React hooks + Context API
+- **Forms** - [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/)
+- **Real-time** - Supabase Realtime with WebSockets
+- **Deployment** - [Vercel](https://vercel.com/) (Frontend) + [Fly.io](https://fly.io/) (Backend)
+
+## Project Structure
 
 ```plaintext
 src/
-├── app/ # Next.js App Router directory
-│ ├── (auth)/ # Auth route group
-│ │ ├── (signin)/
-│ ├── (dashboard)/ # Dashboard route group
-│ │ ├── layout.tsx
-│ │ ├── loading.tsx
-│ │ └── page.tsx
-│ └── api/ # API routes
+├── app/ # Next.js App Router
+│ ├── (auth)/ # Authentication routes (route group)
+│ │ ├── sign-in/ # Sign in page
+│ │ └── sign-up/ # Sign up page
+│ ├── welcome/ # Welcome/landing page
+│ ├── dashboard/ # Main application routes
+│ │ ├── attainment/ # Efficiency tracking
+│ │ ├── organization/ # Company/site management
+│ │ └── profile/ # User profile management
+│ ├── api/ # API endpoints
+│ ├── layout.tsx # Root layout
+│ ├── page.tsx # Home page
+│ ├── globals.css # Global styles
+│ └── theme.css # Theme configuration
 │
 ├── components/ # Shared components
-│ ├── ui/ # UI components (buttons, inputs, etc.)
-│ └── layout/ # Layout components (header, sidebar, etc.)
+│ ├── ui/ # ShadCN UI components
+│ ├── layout/ # Layout components
+│ ├── auth/ # Authentication components
+│ └── features/ # Feature showcase components
 │
 ├── features/ # Feature-based modules
-│ ├── feature/
-│ │ ├── components/ # Feature-specific components
-│ │ ├── actions/ # Server actions
-│ │ ├── schemas/ # Form validation schemas
-│ │ └── utils/ # Feature-specific utilities
-│ │
-├── lib/ # Core utilities and configurations
-│ ├── auth/ # Auth configuration
-│ ├── db/ # Database utilities
+│ ├── auth/ # Authentication features
+│ └── profile/ # User profile management
+│
+├── hooks/ # Custom React hooks
+│ ├── use-user-role.ts # Role management
+│ ├── use-clerk-organization.ts # Organization context
+│ └── use-loading-state.ts # Loading state management
+│
+├── lib/ # Core utilities
+│ ├── auth/ # Permission system
+│ ├── forms/ # Form validation
 │ └── utils/ # Shared utilities
 │
-├── hooks/ # Custom hooks
-│ └── use-debounce.ts
-│
-├── stores/ # Zustand stores
-│ └── dashboard-store.ts
-│
-└── types/ # TypeScript types
-└── index.ts
+└── types/ # TypeScript definitions
+    ├── api.ts # API types
+    ├── common.ts # Common types
+    └── data-table.ts # Table component types
 ```
 
 ## Getting Started
 
-> [!IMPORTANT]  
-> **React Version Compatibility**: This project uses **React 18** for maximum stability and compatibility with the entire ecosystem. While Next.js 15 supports React 19, we've chosen React 18 to avoid compatibility issues with icon libraries (@tabler/icons-react, lucide-react, @radix-ui/react-icons) and third-party components that haven't fully adapted to React 19's stricter type system yet.
+### Prerequisites
 
-### React 18 vs React 19 Compatibility
+- Node.js 18+ installed
+- pnpm package manager
+- Clerk.com account for authentication
+- Supabase account for database
 
-**Why React 18?**
-- ✅ **Full ecosystem compatibility** - All icon libraries and UI components work seamlessly
-- ✅ **Stable production-ready** - Battle-tested in enterprise applications  
-- ✅ **No TypeScript errors** - Avoids `ForwardRefExoticComponent` type conflicts
-- ✅ **Better developer experience** - No need for manual component wrapping or type assertions
+### Installation
 
-**React 19 Issues (Resolved by using React 18):**
-- ❌ Icon libraries export components with incompatible `ForwardRefExoticComponent` types
-- ❌ React 19 expects JSX components to have `(props: any) => ReactNode` signature
-- ❌ Requires manual `React.createElement()` wrapping for many third-party components
-- ❌ Breaking changes in component prop typing
-
-> [!TIP]
-> **Future Migration**: You can upgrade to React 19 later when the ecosystem fully adapts. For now, React 18 provides all modern React features with maximum stability.
-
-Follow these steps:
-
-Clone the repo:
-
-```
-git clone https://github.com/Kiranism/next-shadcn-dashboard-starter.git
-```
-
-- `pnpm install` ( we have legacy-peer-deps=true added in the .npmrc)
-- Create a `.env.local` file by copying the example environment file:
-  `cp env.example.txt .env.local`
-- Add the required environment variables to the `.env.local` file.
-- `pnpm run dev`
-
-##### Environment Configuration Setup
-
-To configure the environment for this project, refer to the `env.example.txt` file. This file contains the necessary environment variables required for authentication and error tracking.
-
-You should now be able to access the application at http://localhost:3000.
-
-## Troubleshooting
-
-### React 19 Compatibility Issues
-
-If you encounter TypeScript errors like:
-```
-Type 'ForwardRefExoticComponent<...>' is not assignable to type '(props: any) => ReactNode'
-```
-
-**Root Cause**: React 19 introduced stricter typing for JSX components. Icon libraries and many UI components haven't fully adapted to these changes.
-
-**Solutions**:
-1. **Recommended**: Use React 18 (already configured in this project)
-2. **Alternative**: If you must use React 19, you'll need to:
-   - Wrap icon components with `React.createElement(IconComponent as any, props)`
-   - Use type assertions: `as any` for third-party components
-   - Update component prop types manually
-
-**Migration Path**: 
-- Stay on React 18 for production stability
-- Monitor ecosystem adoption of React 19
-- Upgrade when major libraries provide full React 19 support
-
-### Common Build Errors
-
-**Missing Environment Variables**:
+1. **Clone the repository**
 ```bash
-cp env.example.txt .env.local
-# Add your actual environment variables
+git clone <your-repo-url>
+cd lean-tools
 ```
 
-**Package Installation Issues**:
+2. **Install dependencies**
 ```bash
-rm -rf node_modules package-lock.json
 pnpm install
 ```
 
-> [!WARNING]
-> After cloning or forking the repository, be cautious when pulling or syncing with the latest changes, as this may result in breaking conflicts.
+3. **Environment Configuration**
+```bash
+# Copy environment template
+cp env.example.txt .env.local
 
-Cheers! 🥂
+# Add your environment variables
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your-clerk-key
+CLERK_SECRET_KEY=your-clerk-secret
+NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-key
+```
+
+4. **Start development server**
+```bash
+pnpm dev
+```
+
+5. **Open your browser**
+Navigate to [http://localhost:3000](http://localhost:3000)
+
+## Database Setup
+
+The system uses Supabase (PostgreSQL) for data storage. See [SUPABASE_SETUP.md](./SUPABASE_SETUP.md) for complete database setup instructions.
+
+### Quick Database Setup
+
+1. **Create Supabase Project**
+   - Go to [supabase.com](https://supabase.com)
+   - Create new project
+   - Get your project URL and API keys
+
+2. **Run Database Schema**
+   - Execute the SQL commands from `SUPABASE_SETUP.md`
+   - Set up Row Level Security policies
+   - Configure real-time subscriptions
+
+3. **Test Connection**
+   - Verify database connectivity
+   - Test CRUD operations
+   - Validate RLS policies
+
+## Authentication & Roles
+
+### User Roles
+
+- **Admin** - Full system access, user management, organization settings
+- **Manager** - Efficiency tracking, reporting, basic organization access
+- **Operator** - Machine cycle tracking, basic reporting, profile management
+
+### Access Control
+
+- **Company & Site** - Locked upon sign-up, admin-managed
+- **Value Stream & Cell** - Adjustable within the app
+- **Role Permissions** - Granular access control based on user roles
+
+## Development Workflow
+
+### Code Quality Standards
+
+- **TypeScript Strict Mode** - Full type safety
+- **ESLint + Prettier** - Code formatting and linting
+- **Feature-based Organization** - Modular, maintainable architecture
+- **Component Library** - Consistent UI with ShadCN/UI
+
+### Testing
+
+- **Unit Tests** - Component and utility testing
+- **Integration Tests** - API endpoint testing
+- **E2E Tests** - User workflow testing
+
+### Deployment
+
+- **Frontend** - Vercel with automatic deployments
+- **Database** - Supabase with automated backups
+- **Environment Management** - Separate configs for dev/staging/prod
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## Troubleshooting
+
+### Common Issues
+
+**Authentication Problems**
+- Verify Clerk environment variables
+- Check user role assignments
+- Validate organization membership
+
+**Database Connection Issues**
+- Confirm Supabase credentials
+- Check network connectivity
+- Verify RLS policies
+
+**Build Errors**
+- Clear node_modules: `rm -rf node_modules pnpm-lock.yaml && pnpm install`
+- Check TypeScript errors: `pnpm type-check`
+- Verify environment variables
+
+### Getting Help
+
+- Check the [SUPABASE_SETUP.md](./SUPABASE_SETUP.md) for database issues
+- Review [Clerk documentation](https://clerk.com/docs) for auth problems
+- Open an issue for bugs or feature requests
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+
+## Acknowledgments
+
+- Built with [Next.js](https://nextjs.org/) and [React](https://react.dev)
+- UI components from [ShadCN/UI](https://ui.shadcn.com)
+- Authentication by [Clerk](https://clerk.com/)
+- Database powered by [Supabase](https://supabase.com/)
+
+---
+
+**Ready to optimize your manufacturing efficiency?** 🚀
+
+Start by setting up your Supabase database and implementing the machine cycle tracking features. Check out the [SUPABASE_SETUP.md](./SUPABASE_SETUP.md) for detailed database configuration instructions.

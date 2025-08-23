@@ -43,24 +43,25 @@ import {
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import * as React from 'react';
-import { Icons } from '../icons';
-import { OrgSwitcher } from '../org-switcher';
+import { Icons } from '@/components/icons';
+import { OrgSwitcher } from '@/components/org-switcher';
 
-export default function AppSidebar() {
+export function AppSidebar() {
   const pathname = usePathname();
   const { isOpen } = useMediaQuery();
   const { user } = useUser();
   const { signOut } = useClerk();
-  const { current, available, isLoading, switchOrganization } = useClerkOrganization();
+  const { current, available, switchOrganization } = useClerkOrganization();
   const router = useRouter();
-  
-  // Debug logging
-  console.log('AppSidebar - Organization data:', { current, available, isLoading });
-  
+
   // Ensure we always have some data for the OrgSwitcher
-  const safeCurrent = current || { id: 'loading', name: 'Loading...', imageUrl: null };
+  const safeCurrent = current || {
+    id: 'loading',
+    name: 'Loading...',
+    imageUrl: null
+  };
   const safeAvailable = available.length > 0 ? available : [safeCurrent];
-  
+
   const handleSwitchTenant = (tenantId: string) => {
     switchOrganization(tenantId);
   };
@@ -70,11 +71,15 @@ export default function AppSidebar() {
       await signOut();
       router.push('/');
     } catch (error) {
-      console.error('Error signing out:', error);
-      // Fallback: just redirect
+      // In production, send to error logging service
+      // For now, just redirect to home page
       router.push('/');
     }
   };
+
+  // Get account navigation items for the footer
+  const accountItems =
+    navItems.find((item) => item.title === 'Account')?.items || [];
 
   React.useEffect(() => {
     // Side effects based on sidebar state changes
@@ -108,9 +113,9 @@ export default function AppSidebar() {
                         tooltip={item.title}
                         isActive={pathname === item.url}
                       >
-                        {item.icon && Icon && React.createElement(Icon as any)}
+                        {item.icon && Icon && <Icon />}
                         <span>{item.title}</span>
-                        {React.createElement(ChevronRight as any, { className: 'ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' })}
+                        <ChevronRight className='ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' />
                       </SidebarMenuButton>
                     </CollapsibleTrigger>
                     <CollapsibleContent>
@@ -121,7 +126,9 @@ export default function AppSidebar() {
                               asChild
                               isActive={pathname === subItem.url}
                             >
-                              {React.createElement(Link as any, { href: subItem.url }, <span>{subItem.title}</span>)}
+                              <Link href={subItem.url}>
+                                <span>{subItem.title}</span>
+                              </Link>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
                         ))}
@@ -136,10 +143,10 @@ export default function AppSidebar() {
                     tooltip={item.title}
                     isActive={pathname === item.url}
                   >
-                    {React.createElement(Link as any, { href: item.url }, [
-                      Icon && React.createElement(Icon as any),
-                      <span key="title">{item.title}</span>
-                    ])}
+                    <Link href={item.url}>
+                      {Icon && <Icon />}
+                      <span>{item.title}</span>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               );
@@ -158,12 +165,12 @@ export default function AppSidebar() {
                 >
                   {user && (
                     <UserAvatarProfile
-                      className='h-8 w-8 rounded-lg'
+                      className='h-6 w-6 rounded-lg'
                       showInfo
                       user={user}
                     />
                   )}
-                  {React.createElement(ChevronsDown as any, { className: 'ml-auto size-4' })}
+                  <ChevronsDown className='ml-auto size-4' />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent
@@ -186,22 +193,23 @@ export default function AppSidebar() {
                 <DropdownMenuSeparator />
 
                 <DropdownMenuGroup>
-                  <DropdownMenuItem
-                    onClick={() => router.push('/dashboard/profile')}
-                  >
-                    {React.createElement(UserCircle as any, { className: 'mr-2 h-4 w-4' })}
-                    Profile
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => router.push('/dashboard/organization')}
-                  >
-                    {React.createElement(User2 as any, { className: 'mr-2 h-4 w-4' })}
-                    Organization
-                  </DropdownMenuItem>
+                  {accountItems.map((item) => (
+                    <DropdownMenuItem
+                      key={item.title}
+                      onClick={() => router.push(item.url)}
+                    >
+                      {item.icon === 'userPen' ? (
+                        <UserCircle className='mr-2 h-4 w-4' />
+                      ) : item.icon === 'user2' ? (
+                        <User2 className='mr-2 h-4 w-4' />
+                      ) : null}
+                      {item.title}
+                    </DropdownMenuItem>
+                  ))}
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleSignOut}>
-                  {React.createElement(LogOut as any, { className: 'mr-2 h-4 w-4' })}
+                  <LogOut className='mr-2 h-4 w-4' />
                   Sign Out
                 </DropdownMenuItem>
               </DropdownMenuContent>

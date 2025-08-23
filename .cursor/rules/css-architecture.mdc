@@ -1,0 +1,93 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+
+# CSS Architecture - Single Source of Truth
+
+## Core Principle
+
+All custom styles MUST be defined in [globals.css](mdc:src/app/globals.css). Components use only Tailwind utility classes and CSS variables defined in the global theme system.
+
+## Implementation Rules
+
+- **CSS Variables**: All design tokens defined in `:root` and `.dark` selectors in globals.css
+- **Component Styles**: Create reusable classes in `@layer components` for complex, repeated styling patterns
+- **Tailwind in Components**: Use Tailwind utilities directly for unique, component-specific styling
+- **Theme Integration**: Leverage CSS variables for consistent theming (e.g., `bg-card`, `text-foreground`)
+- **No Inline Styles**: Avoid `style jsx` or `style` attributes; use CSS classes or Tailwind utilities
+- **No Component-Specific CSS**: All styles centralized in globals.css
+
+## Current Theme System
+
+Your project uses a sophisticated theme system with:
+
+- **OKLCH color space** for modern color management
+- **CSS custom properties** for all design tokens
+- **Dark/light mode** with semantic color naming
+- **Sidebar-specific variables** for consistent navigation styling
+- **Chart color palette** for data visualization
+
+## Usage Patterns
+
+**Unique component styling** - Use Tailwind with theme variables:
+
+```tsx
+<Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+<Card className="bg-card border-border shadow-sm">
+```
+
+**Repeated patterns** - Extract to globals.css:
+
+```css
+/* globals.css - when used across multiple components */
+@layer components {
+  .dashboard-card {
+    @apply bg-card border border-border rounded-lg shadow-sm hover:shadow-md transition-all;
+  }
+  
+  .sidebar-item {
+    @apply flex items-center gap-2 px-3 py-2 rounded-md hover:bg-sidebar-accent;
+  }
+}
+```
+
+**Theme variables** - Always reference from globals.css:
+
+```css
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+}
+```
+
+## Migration from style jsx
+
+**Before (style jsx - NOT ALLOWED):**
+```tsx
+<style jsx>{`
+  .container {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 2rem;
+  }
+`}</style>
+```
+
+**After (globals.css + Tailwind):**
+```css
+/* globals.css */
+@layer components {
+  .gradient-container {
+    @apply bg-gradient-to-br from-primary to-secondary p-8;
+  }
+}
+```
+
+```tsx
+<div className="gradient-container">
+  {/* content */}
+</div>

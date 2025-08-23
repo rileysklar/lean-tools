@@ -13,8 +13,6 @@ html {
   scroll-behavior: smooth;
 }
 
-
-
 /* Custom scrollbar styles */
 ::-webkit-scrollbar {
   width: 8px;
@@ -23,12 +21,12 @@ html {
 
 /* Hide scrollbar for mobile tabs */
 .scrollbar-hide {
-  -ms-overflow-style: none;  /* Internet Explorer 10+ */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
 }
 
 .scrollbar-hide::-webkit-scrollbar {
-  display: none;  /* Safari and Chrome */
+  display: none; /* Safari and Chrome */
 }
 
 ::-webkit-scrollbar-track {
@@ -161,6 +159,11 @@ html {
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Global body overflow control - replaces style jsx */
+  body.overflow-auto {
+    overflow: auto !important;
+  }
 }
 
 /* View Transition Wave Effect */
@@ -196,4 +199,85 @@ html {
 ::view-transition-new(root) {
   /* Apply the reveal animation */
   animation: reveal 0.4s ease-in-out forwards;
+}
+
+@layer components {
+  /* Text utilities */
+  .text-label {
+    @apply text-sm font-medium;
+  }
+
+  .text-muted-label {
+    @apply text-muted-foreground text-sm;
+  }
+
+  .text-metric {
+    @apply text-2xl font-bold;
+  }
+
+  .text-metric-green {
+    @apply text-2xl font-bold text-green-600;
+  }
+
+  .text-metric-blue {
+    @apply text-2xl font-bold text-blue-600;
+  }
+
+  /* Layout utilities */
+  .flex-center-gap {
+    @apply flex items-center gap-2;
+  }
+
+  .flex-center-gap-3 {
+    @apply flex items-center gap-3;
+  }
+
+  .flex-between {
+    @apply flex items-center justify-between;
+  }
+
+  /* Card utilities */
+  .card-base {
+    @apply border-border rounded-lg border p-4;
+  }
+
+  .card-header-base {
+    @apply flex items-center justify-between space-y-0 pb-2;
+  }
+
+  /* Dashboard specific */
+  .dashboard-metric {
+    @apply text-2xl font-bold;
+  }
+
+  .dashboard-metric-green {
+    @apply text-2xl font-bold text-green-600;
+  }
+
+  .dashboard-metric-blue {
+    @apply text-2xl font-bold text-blue-600;
+  }
+
+  /* Form utilities */
+  .form-field {
+    @apply space-y-2;
+  }
+
+  .form-label {
+    @apply text-muted-foreground text-sm font-medium;
+  }
+
+  /* Button utilities */
+  .btn-icon {
+    @apply mr-2 h-4 w-4;
+  }
+
+  /* Loading states */
+  .loading-spinner {
+    @apply border-primary mx-auto h-8 w-8 animate-spin rounded-full border-b-2;
+  }
+
+  .loading-skeleton {
+    @apply bg-muted animate-pulse rounded-md;
+  }
 }

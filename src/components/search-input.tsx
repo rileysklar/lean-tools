@@ -3,7 +3,7 @@ import { useKBar } from 'kbar';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { Button } from './ui/button';
 
-export default function SearchInput() {
+export function SearchInput() {
   const { query } = useKBar();
   return (
     <div className='w-full space-y-2'>
